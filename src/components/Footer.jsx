@@ -43,17 +43,28 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Newsletter / CTA */}
+          {/* Newsletter / CTA with Premium Button */}
           <div className="w-full md:w-auto">
-            <div className="bg-white/50 p-1.5 rounded-2xl border border-white flex items-center shadow-inner">
+            <div className="bg-white/50 p-1.5 rounded-2xl border border-white flex items-center shadow-inner min-w-[300px]">
               <input 
                 type="email" 
                 placeholder="Join the waitlist" 
                 className="bg-transparent border-none outline-none px-4 text-sm font-medium w-full md:w-48 placeholder:text-slate-400"
               />
-              <button className="bg-[#1C0770] text-white px-6 py-2.5 rounded-xl text-xs font-bold hover:scale-105 active:scale-95 transition-all">
-                Submit
-              </button>
+              
+              {/* --- UPDATED PREMIUM BUTTON --- */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.96 }}
+                className="relative group px-6 py-2.5 rounded-xl overflow-hidden text-[10px] font-bold tracking-[0.1em] uppercase whitespace-nowrap"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-[#1C0770] via-[#2b0bb5] to-[#3b82f6]" />
+                <div className="absolute inset-0 backdrop-blur-md bg-white/10 opacity-0 group-hover:opacity-100 transition duration-500" />
+                <div className="absolute -left-20 top-0 h-full w-20 bg-white/20 rotate-12 group-hover:left-full transition-all duration-700 ease-in-out" />
+                <span className="relative z-10 text-white font-black">Submit</span>
+              </motion.button>
+              {/* --- END UPDATED BUTTON --- */}
+
             </div>
           </div>
         </div>

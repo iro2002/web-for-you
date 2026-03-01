@@ -129,7 +129,7 @@ const Projects = () => {
                 className="absolute inset-0 transition-all duration-700"
               >
                 <div 
-                  className="absolute inset-0 blur-[10px] scale-[1.15]"
+                  className="absolute inset-0 blur-[80px] scale-[1.15]"
                   style={{
                     backgroundImage: `url(${project.images[currentIndex]})`,
                     backgroundSize: 'cover',

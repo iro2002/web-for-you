@@ -32,6 +32,7 @@ const PremiumButton = () => (
     whileTap={{ scale: 0.96 }}
     className="relative w-full group py-3.5 rounded-full overflow-hidden text-[9px] font-bold tracking-[0.2em] uppercase mt-auto"
   >
+    {/* Button keeps its gradient */}
     <div className="absolute inset-0 bg-gradient-to-r from-[#1C0770] via-[#2b0bb5] to-[#3b82f6]" />
     <div className="absolute inset-0 backdrop-blur-md bg-white/10 opacity-0 group-hover:opacity-100 transition duration-500" />
     <div className="absolute -left-40 top-0 h-full w-40 bg-white/20 rotate-12 group-hover:left-full transition-all duration-700 ease-in-out" />
@@ -41,31 +42,45 @@ const PremiumButton = () => (
 
 const PriceCard = ({ plan }) => (
   <div
-    className={`relative flex flex-col h-full p-7 rounded-[2rem] transition-all duration-500 ${
-      plan.popular
-        ? "bg-white border-2 border-blue-100 shadow-[0_30px_60px_rgba(28,7,112,0.1)] z-20 lg:-translate-y-4"
-        : "bg-white border border-gray-100 shadow-lg z-10"
-    }`}
+    className={`relative flex flex-col h-full p-7 rounded-[2rem] border transition-all duration-300 bg-white shadow-none
+      ${
+        plan.popular
+          ? "border-[#1C0770] border-2 lg:-translate-y-2" 
+          : "border-gray-200 border"
+      }
+    `}
   >
     {plan.popular && (
-      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#1C0770] to-blue-500 text-white text-[8px] font-black uppercase tracking-[0.2em] px-5 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#1C0770] text-white text-[8px] font-black uppercase tracking-[0.2em] px-5 py-1.5 rounded-full whitespace-nowrap z-30">
         Most Popular
       </div>
     )}
 
-    <h3 className="text-xl font-black text-[#1A1A1E] mb-1.5 tracking-tight uppercase">{plan.name}</h3>
-    <p className="text-gray-500 text-[12px] mb-6 min-h-[36px] leading-relaxed font-medium">{plan.description}</p>
+    <h3 className="text-xl font-black text-[#1A1A1E] mb-1.5 tracking-tight uppercase">
+      {plan.name}
+    </h3>
+
+    <p className="text-gray-500 text-[12px] mb-6 min-h-[36px] leading-relaxed font-medium">
+      {plan.description}
+    </p>
 
     <div className="mb-8 flex items-baseline gap-1">
       <span className="text-lg font-bold text-[#1A1A1E]">LKR</span>
-      <span className="text-4xl font-black text-[#1A1A1E] tracking-tighter">{plan.price}</span>
-      <span className="text-gray-400 font-bold text-[9px] uppercase tracking-widest ml-1.5">/ project</span>
+      <span className="text-4xl font-black text-[#1A1A1E] tracking-tighter">
+        {plan.price}
+      </span>
+      <span className="text-gray-400 font-bold text-[9px] uppercase tracking-widest ml-1.5">
+        / project
+      </span>
     </div>
 
     <ul className="space-y-4 mb-10 flex-grow">
       {plan.features.map((feature) => (
-        <li key={feature} className="flex items-center gap-2.5 text-[12px] text-gray-700 font-semibold">
-          <div className="bg-blue-50 p-1 rounded-full flex-shrink-0">
+        <li
+          key={feature}
+          className="flex items-center gap-2.5 text-[12px] text-gray-700 font-semibold"
+        >
+          <div className="p-1 rounded-full flex-shrink-0 bg-gray-50">
             <Check className="w-3 h-3 text-[#1C0770] stroke-[4px]" />
           </div>
           {feature}
@@ -87,49 +102,59 @@ const PricePlan = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.35 },
+      transition: { 
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      },
     },
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 80 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } 
+    hidden: { 
+      opacity: 0, 
+      y: 100 
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { 
+        type: "spring", 
+        stiffness: 70, 
+        damping: 15, 
+        duration: 1 
+      },
     },
   };
 
+  const headerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: "easeOut" } 
+    }
+  };
+
   return (
-    <section className="relative py-20 bg-[#F9FAFB] overflow-hidden min-h-screen flex flex-col justify-center">
+    <section className="relative py-20 bg-white overflow-hidden min-h-screen flex flex-col justify-center">
       <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-12 w-full">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20 flex flex-col items-center">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="inline-block text-[9px] font-bold tracking-[0.4em] uppercase mb-2.5 text-[#1C0770] opacity-80"
-          >
+
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center max-w-2xl mx-auto mb-14 md:mb-20 flex flex-col items-center"
+        >
+          <motion.span variants={headerVariants} className="inline-block text-[9px] font-bold tracking-[0.4em] uppercase mb-2.5 text-[#1C0770]">
             Pricing Strategy
           </motion.span>
-          
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-4 text-center"
-          >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">Ready to</span>{" "}
-            <span className="text-[#1C0770] block sm:inline">Scale?</span>
-          </motion.h2>
-        </div>
 
-        {/* Desktop Grid */}
-        <motion.div 
+          <motion.h2 variants={headerVariants} className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-4 text-[#1C0770]">
+            Ready to Scale?
+          </motion.h2>
+        </motion.div>
+
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -143,18 +168,17 @@ const PricePlan = () => {
           ))}
         </motion.div>
 
-        {/* Mobile Slider */}
         <div className="block lg:hidden relative max-w-[360px] mx-auto">
           <button
             onClick={handlePrev}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 p-3.5 bg-white rounded-full shadow-xl border border-gray-50 text-[#1C0770] active:scale-90 transition-all"
+            className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-white rounded-full border border-gray-200 text-[#1C0770] active:scale-90 transition-all shadow-none"
           >
             <ChevronLeft className="w-5 h-5 stroke-[3px]" />
           </button>
 
           <button
             onClick={handleNext}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 p-3.5 bg-white rounded-full shadow-xl border border-gray-50 text-[#1C0770] active:scale-90 transition-all"
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-white rounded-full border border-gray-200 text-[#1C0770] active:scale-90 transition-all shadow-none"
           >
             <ChevronRight className="w-5 h-5 stroke-[3px]" />
           </button>
@@ -163,21 +187,21 @@ const PricePlan = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={mobileIndex}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -40 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <PriceCard plan={PLANS[mobileIndex]} />
               </motion.div>
             </AnimatePresence>
           </div>
-          
+
           <div className="flex justify-center gap-2.5 mt-4">
             {PLANS.map((_, idx) => (
               <div
                 key={idx}
-                className={`h-1 rounded-full transition-all duration-700 ${
+                className={`h-1 rounded-full transition-all duration-500 ${
                   idx === mobileIndex ? "w-6 bg-[#1C0770]" : "w-1.5 bg-gray-300"
                 }`}
               />
