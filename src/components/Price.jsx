@@ -1,126 +1,192 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 
-const plans = [
+const PLANS = [
   {
-    title: 'Basic',
-    price: '$29',
-    features: ['Standard Support', '3 Projects', 'Basic Analytics'],
+    name: "Starter",
+    price: "9,000",
+    description: "Perfect for establishing your initial digital footprint.",
+    features: ["Single Page Website", "Mobile Responsive", "Basic SEO Setup", "1 Month Support"],
+    popular: false,
   },
   {
-    title: 'Pro',
-    price: '$59',
-    features: ['Priority Support', 'Unlimited Projects', 'Advanced AI Tools', 'Custom Branding'],
+    name: "Professional",
+    price: "25,000",
+    description: "Ideal for growing brands needing powerful performance.",
+    features: ["Up to 5 Pages", "Advanced Animations", "Priority Support", "Custom Domain Integration"],
     popular: true,
   },
   {
-    title: 'Enterprise',
-    price: '$99',
-    features: ['Dedicated Manager', 'Custom API', 'High-Level Security', 'Unlimited Seats'],
+    name: "Enterprise",
+    price: "60,000",
+    description: "Full-scale solutions with dedicated infrastructure.",
+    features: ["Unlimited Pages", "E-Commerce Ready", "Dedicated Manager", "Custom API Integrations"],
+    popular: false,
   },
 ];
 
-const Pricing = () => {
-  return (
-    <section className="relative w-full py-32 bg-[#EEF0F2] font-sans text-[#1A1A1E] overflow-hidden">
-      {/* Header Section */}
-      <div className="max-w-4xl mx-auto text-center mb-24 px-6 relative z-10">
-        <motion.span
-          className="text-[10px] font-black tracking-[0.6em] uppercase text-slate-400"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-        >
-          Investment
-        </motion.span>
-        <motion.h2
-          className="text-5xl md:text-6xl font-black mt-4 leading-tight tracking-tighter text-slate-900"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          Choose Your Plan
-        </motion.h2>
-      </div>
+const PremiumButton = () => (
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.96 }}
+    className="relative w-full group py-3.5 rounded-full overflow-hidden text-[9px] font-bold tracking-[0.2em] uppercase mt-auto"
+  >
+    <div className="absolute inset-0 bg-gradient-to-r from-[#1C0770] via-[#2b0bb5] to-[#3b82f6]" />
+    <div className="absolute inset-0 backdrop-blur-md bg-white/10 opacity-0 group-hover:opacity-100 transition duration-500" />
+    <div className="absolute -left-40 top-0 h-full w-40 bg-white/20 rotate-12 group-hover:left-full transition-all duration-700 ease-in-out" />
+    <span className="relative z-10 text-white font-black">Hire Us</span>
+  </motion.button>
+);
 
-      {/* Pricing Cards Container */}
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-10 justify-center items-stretch relative z-10">
-        {plans.map((plan, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
+const PriceCard = ({ plan }) => (
+  <div
+    className={`relative flex flex-col h-full p-7 rounded-[2rem] transition-all duration-500 ${
+      plan.popular
+        ? "bg-white border-2 border-blue-100 shadow-[0_30px_60px_rgba(28,7,112,0.1)] z-20 lg:-translate-y-4"
+        : "bg-white border border-gray-100 shadow-lg z-10"
+    }`}
+  >
+    {plan.popular && (
+      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#1C0770] to-blue-500 text-white text-[8px] font-black uppercase tracking-[0.2em] px-5 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+        Most Popular
+      </div>
+    )}
+
+    <h3 className="text-xl font-black text-[#1A1A1E] mb-1.5 tracking-tight uppercase">{plan.name}</h3>
+    <p className="text-gray-500 text-[12px] mb-6 min-h-[36px] leading-relaxed font-medium">{plan.description}</p>
+
+    <div className="mb-8 flex items-baseline gap-1">
+      <span className="text-lg font-bold text-[#1A1A1E]">LKR</span>
+      <span className="text-4xl font-black text-[#1A1A1E] tracking-tighter">{plan.price}</span>
+      <span className="text-gray-400 font-bold text-[9px] uppercase tracking-widest ml-1.5">/ project</span>
+    </div>
+
+    <ul className="space-y-4 mb-10 flex-grow">
+      {plan.features.map((feature) => (
+        <li key={feature} className="flex items-center gap-2.5 text-[12px] text-gray-700 font-semibold">
+          <div className="bg-blue-50 p-1 rounded-full flex-shrink-0">
+            <Check className="w-3 h-3 text-[#1C0770] stroke-[4px]" />
+          </div>
+          {feature}
+        </li>
+      ))}
+    </ul>
+
+    <PremiumButton />
+  </div>
+);
+
+const PricePlan = () => {
+  const [mobileIndex, setMobileIndex] = useState(1);
+
+  const handleNext = () => setMobileIndex((prev) => (prev + 1) % PLANS.length);
+  const handlePrev = () => setMobileIndex((prev) => (prev - 1 + PLANS.length) % PLANS.length);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.35 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 80 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } 
+    },
+  };
+
+  return (
+    <section className="relative py-20 bg-[#F9FAFB] overflow-hidden min-h-screen flex flex-col justify-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-12 w-full">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20 flex flex-col items-center">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            whileHover={{ y: -12, scale: 1.02 }}
-            className={`relative flex-1 p-1 rounded-[3.5rem] transition-all duration-500 group
-              ${plan.popular ? 'lg:scale-105 z-20' : 'z-10'}
-            `}
+            transition={{ duration: 1 }}
+            className="inline-block text-[9px] font-bold tracking-[0.4em] uppercase mb-2.5 text-[#1C0770] opacity-80"
           >
-            {/* The Main Glass Body */}
-            <div className="relative h-full w-full p-12 rounded-[3.4rem] overflow-hidden
-              /* High Transparency Glass */
-              bg-white/40 backdrop-blur-3xl 
-              /* Light Source Simulation (Top/Left) */
-              border-t border-l border-white/90 
-              /* Depth Simulation (Bottom/Right) */
-              border-b border-r border-white/20
-              /* Multi-layered shadows: 1. Depth, 2. Inner Glow */
-              shadow-[40px_40px_80px_rgba(0,0,0,0.03),inset_0_0_25px_rgba(255,255,255,0.6)]
-            ">
-              
-              {/* Liquid Shimmer (Moving Reflection) */}
-              <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
+            Pricing Strategy
+          </motion.span>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-4 text-center"
+          >
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">Ready to</span>{" "}
+            <span className="text-[#1C0770] block sm:inline">Scale?</span>
+          </motion.h2>
+        </div>
 
-              {/* Plan Label */}
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.25em]">
-                  {plan.title}
-                </h3>
-                {plan.popular && (
-                  <span className="bg-[#1C0770] text-white text-[8px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
-                    Popular
-                  </span>
-                )}
-              </div>
+        {/* Desktop Grid */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="hidden lg:grid grid-cols-3 gap-8 items-stretch"
+        >
+          {PLANS.map((plan) => (
+            <motion.div key={plan.name} variants={cardVariants}>
+              <PriceCard plan={plan} />
+            </motion.div>
+          ))}
+        </motion.div>
 
-              {/* Pricing Display */}
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-5xl font-black text-[#1C0770] tracking-tighter">{plan.price}</span>
-                <span className="text-slate-500 font-bold text-sm">/mo</span>
-              </div>
+        {/* Mobile Slider */}
+        <div className="block lg:hidden relative max-w-[360px] mx-auto">
+          <button
+            onClick={handlePrev}
+            className="absolute -left-4 top-1/2 -translate-y-1/2 z-30 p-3.5 bg-white rounded-full shadow-xl border border-gray-50 text-[#1C0770] active:scale-90 transition-all"
+          >
+            <ChevronLeft className="w-5 h-5 stroke-[3px]" />
+          </button>
 
-              {/* Minimal Divider */}
-              <div className="w-full h-[1px] bg-slate-200 mb-8" />
+          <button
+            onClick={handleNext}
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-30 p-3.5 bg-white rounded-full shadow-xl border border-gray-50 text-[#1C0770] active:scale-90 transition-all"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[3px]" />
+          </button>
 
-              {/* Features List */}
-              <ul className="mb-14 space-y-5">
-                {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center gap-4">
-                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-inner border border-white">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#1C0770]" />
-                    </div>
-                    <span className="text-sm font-bold text-slate-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Enhanced CTA Button */}
-              <button
-                className={`w-full py-5 rounded-[2rem] font-black tracking-widest text-[11px] uppercase shadow-md transition-all duration-500
-                  ${
-                    plan.popular
-                      ? 'bg-[#1C0770] text-white hover:bg-[#250a8d] hover:shadow-[#1C0770]/30 hover:shadow-2xl'
-                      : 'bg-white text-[#1C0770] border border-white hover:bg-slate-50'
-                  }
-                `}
+          <div className="overflow-hidden py-8 px-2">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={mobileIndex}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -40 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                Get Started
-              </button>
-            </div>
-          </motion.div>
-        ))}
+                <PriceCard plan={PLANS[mobileIndex]} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          
+          <div className="flex justify-center gap-2.5 mt-4">
+            {PLANS.map((_, idx) => (
+              <div
+                key={idx}
+                className={`h-1 rounded-full transition-all duration-700 ${
+                  idx === mobileIndex ? "w-6 bg-[#1C0770]" : "w-1.5 bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default Pricing;
+export default PricePlan;
