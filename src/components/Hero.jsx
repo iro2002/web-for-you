@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-// --- Professional Minimalist Icons (Scaled Down) ---
+// --- Professional Minimalist Icons ---
 const WebsiteIcon = () => (
   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -40,68 +40,27 @@ const SEOIcon = () => (
 
 // --- Services Data ---
 const services = [
-  {
-    id: 1,
-    title: "Corporate Websites",
-    description: "Lightning-fast, high-converting platforms designed to establish absolute authority in your industry.",
-    icon: <WebsiteIcon />,
-  },
-  {
-    id: 2,
-    title: "Startup E-Commerce",
-    description: "Scalable stores with seamless checkout flows, secure gateways, and striking product displays.",
-    icon: <EcommerceIcon />,
-  },
-  {
-    id: 3,
-    title: "Tourism & Travel",
-    description: "Immersive experiences featuring interactive maps, booking engines, and visual storytelling.",
-    icon: <TourismIcon />,
-  },
-  {
-    id: 4,
-    title: "Custom Web Apps",
-    description: "Bespoke digital solutions, portals, and web applications engineered perfectly for your niche.",
-    icon: <CustomIcon />,
-  },
-  {
-    id: 5,
-    title: "UI/UX Design",
-    description: "Intuitive, pixel-perfect user interfaces and engaging experiences that delight your customers.",
-    icon: <DesignIcon />,
-  },
-  {
-    id: 6,
-    title: "SEO & Performance",
-    description: "Data-driven optimization strategies to improve your search rankings and drive targeted traffic.",
-    icon: <SEOIcon />,
-  },
+  { id: 1, title: "Corporate Websites", description: "Lightning-fast, high-converting platforms designed to establish absolute authority in your industry.", icon: <WebsiteIcon /> },
+  { id: 2, title: "Startup E-Commerce", description: "Scalable stores with seamless checkout flows, secure gateways, and striking product displays.", icon: <EcommerceIcon /> },
+  { id: 3, title: "Tourism & Travel", description: "Immersive experiences featuring interactive maps, booking engines, and visual storytelling.", icon: <TourismIcon /> },
+  { id: 4, title: "Custom Web Apps", description: "Bespoke digital solutions, portals, and web applications engineered perfectly for your niche.", icon: <CustomIcon /> },
+  { id: 5, title: "UI/UX Design", description: "Intuitive, pixel-perfect user interfaces and engaging experiences that delight your customers.", icon: <DesignIcon /> },
+  { id: 6, title: "SEO & Performance", description: "Data-driven optimization strategies to improve your search rankings and drive targeted traffic.", icon: <SEOIcon /> },
 ];
 
 const Services = () => {
-
   return (
-    <section 
-      id="services" 
-      className="relative w-full py-16 md:py-24 overflow-hidden bg-[#F9FAFB] text-[#1A1A1E] flex flex-col items-center justify-center"
-    >
-      {/* --- Ambient Background Liquid Blobs --- */}
+    <section id="services" className="relative w-full py-16 md:py-24 overflow-hidden bg-[#F9FAFB] text-[#1A1A1E] flex flex-col items-center justify-center">
+
+      {/* --- Background Blobs --- */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <motion.div
-          animate={{
-            x: [0, -30, 15, 0],
-            y: [0, 30, -15, 0],
-            scale: [1, 1.1, 0.9, 1],
-          }}
+          animate={{ x: [0, -30, 15, 0], y: [0, 30, -15, 0], scale: [1, 1.1, 0.9, 1] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-[#1C0770]/5 rounded-full blur-[80px]"
         />
         <motion.div
-          animate={{
-            x: [0, 30, -20, 0],
-            y: [0, -30, 20, 0],
-            scale: [1, 1.2, 0.8, 1],
-          }}
+          animate={{ x: [0, 30, -20, 0], y: [0, -30, 20, 0], scale: [1, 1.2, 0.8, 1] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] max-w-[400px] max-h-[400px] bg-blue-500/10 rounded-full blur-[80px]"
         />
@@ -109,7 +68,7 @@ const Services = () => {
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-6">
         
-        {/* --- Centered Section Header --- */}
+        {/* --- Section Header --- */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16 flex flex-col items-center">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
@@ -127,9 +86,7 @@ const Services = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-4 text-center"
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">
-              Digital
-            </span>{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">Digital</span>{" "}
             <span className="text-[#1C0770] block sm:inline">Experiences</span>
           </motion.h2>
 
@@ -144,31 +101,29 @@ const Services = () => {
           </motion.p>
         </div>
 
-        {/* --- Symmetrical Professional Grid --- */}
+        {/* --- Services Grid with Slide Animation --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <motion.div
               key={service.id}
-              whileHover="hover"
-              className="group relative overflow-hidden rounded-3xl p-6 sm:p-8 transition-all duration-500 flex flex-col items-center text-center bg-white/40 border border-white/60 shadow-[0_4px_24px_rgba(28,7,112,0.03)] hover:shadow-[0_15px_40px_rgba(28,7,112,0.08)] backdrop-blur-2xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+              whileHover={{ scale: 1.03 }}
+              className="group relative overflow-hidden rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center bg-white/40 border border-white/60 shadow-[0_4px_24px_rgba(28,7,112,0.03)] hover:shadow-[0_15px_40px_rgba(28,7,112,0.08)] backdrop-blur-2xl"
             >
-              {/* Internal Expanding Liquid Hover Effect */}
+              {/* Internal Liquid Hover */}
               <motion.div
-                variants={{
-                  hover: { scale: 2.5, opacity: 0.6 }
-                }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-tr from-[#1C0770]/5 to-blue-400/10 blur-xl z-0 rounded-full transition-all duration-700 ease-out pointer-events-none"
+                variants={{ hover: { scale: 2.5, opacity: 0.6 } }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-tr from-[#1C0770]/5 to-blue-400/10 blur-xl z-0 rounded-full pointer-events-none"
               />
 
-              {/* Centered Liquid Icon Container */}
+              {/* Icon */}
               <div className="relative z-10 w-16 h-16 mb-5 flex items-center justify-center">
                 <motion.div
                   animate={{
-                    borderRadius: [
-                      "40% 60% 70% 30% / 40% 50% 60% 50%",
-                      "60% 40% 30% 70% / 60% 30% 70% 40%",
-                      "40% 60% 70% 30% / 40% 50% 60% 50%",
-                    ],
+                    borderRadius: ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 60% 30% 70% 40%", "40% 60% 70% 30% / 40% 50% 60% 50%"]
                   }}
                   transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                   className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-white shadow-inner border border-white/50 z-0 group-hover:from-[#1C0770]/10 group-hover:to-blue-200/50 transition-colors duration-500"
@@ -178,17 +133,13 @@ const Services = () => {
                 </div>
               </div>
 
-              {/* Text Content */}
+              {/* Text */}
               <div className="relative z-10 flex flex-col items-center flex-grow">
-                <h3 className="text-lg sm:text-xl font-bold mb-2 text-[#1C0770]">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed text-xs sm:text-sm max-w-[260px]">
-                  {service.description}
-                </p>
+                <h3 className="text-lg sm:text-xl font-bold mb-2 text-[#1C0770]">{service.title}</h3>
+                <p className="text-gray-600 leading-relaxed text-xs sm:text-sm max-w-[260px]">{service.description}</p>
               </div>
 
-              {/* Subtle Animated Bottom Border Line on Hover */}
+              {/* Bottom Border */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[3px] bg-gradient-to-r from-[#1C0770] to-blue-500 transition-all duration-500 ease-out group-hover:w-full opacity-0 group-hover:opacity-100" />
             </motion.div>
           ))}

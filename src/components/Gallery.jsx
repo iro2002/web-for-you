@@ -12,41 +12,42 @@ const statsData = [
 
 const AboutUs = () => {
   // ---- Unified Professional Ease ----
+  // This ease creates a very smooth "slow down at the end" effect
   const customEase = [0.22, 1, 0.36, 1];
 
-  // ---- Directional Animations ----
+  // ---- Directional Animations (Ultra Slow) ----
   const slideFromLeft = {
     hidden: { opacity: 0, x: -80 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: customEase } }
+    visible: { opacity: 1, x: 0, transition: { duration: 2.2, ease: customEase } } // Increased to 2.2s
   };
 
   const slideFromRight = {
     hidden: { opacity: 0, x: 80 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: customEase } }
+    visible: { opacity: 1, x: 0, transition: { duration: 2.2, ease: customEase } } // Increased to 2.2s
   };
 
   const slideFromTopRight = {
     hidden: { opacity: 0, x: 40, y: -40 },
-    visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.9, ease: customEase } }
+    visible: { opacity: 1, x: 0, y: 0, transition: { duration: 2.2, ease: customEase } } // Increased to 2.2s
   };
 
   const slideFromBottomLeft = {
     hidden: { opacity: 0, x: -40, y: 40 },
-    visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.9, ease: customEase } }
+    visible: { opacity: 1, x: 0, y: 0, transition: { duration: 2.2, ease: customEase } } // Increased to 2.2s
   };
 
   const slideUp = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: customEase } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: customEase } } // Increased to 1.5s
   };
 
-  // Orchestrates the right-side visual elements to stagger in slightly after the main trigger
+  // Orchestrates the right-side visual elements to stagger in slowly
   const assembleContainer = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1
+        staggerChildren: 0.5, // Badges now wait half a second between each other
+        delayChildren: 0.3    // Waits 0.3s after triggering before starting
       }
     }
   };
@@ -62,16 +63,17 @@ const AboutUs = () => {
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* ================= MAIN CONTENT (Synchronized Trigger Wrapper) ================= */}
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }} // Triggers when 20% of this block is visible
-          className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center"
-        >
+        {/* ================= MAIN CONTENT ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           
-          {/* ---------------- LEFT CONTENT (Inherits Trigger, Slides from Left) ---------------- */}
-          <motion.div variants={slideFromLeft} className="max-w-xl">
+          {/* ---------------- LEFT CONTENT (Triggers when text is visible) ---------------- */}
+          <motion.div 
+            variants={slideFromLeft} 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }} // Triggers when 20% of the text is visible
+            className="max-w-xl"
+          >
             <div className="flex items-center gap-4 mb-6">
               <div className="h-[2px] w-8 bg-gradient-to-r from-[#1C0770] to-transparent" />
               <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase text-[#1C0770]">
@@ -110,9 +112,12 @@ const AboutUs = () => {
             </motion.a>
           </motion.div>
 
-          {/* ---------------- RIGHT VISUAL (Inherits Trigger, Staggers Children) ---------------- */}
+          {/* ---------------- RIGHT VISUAL (Triggers ONLY when image scrolls into view) ---------------- */}
           <motion.div
             variants={assembleContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }} // Triggers when 30% of the image container is visible
             className="relative w-full aspect-square max-w-[520px] mx-auto lg:ml-auto"
           >
             {/* Background Glow */}
@@ -127,7 +132,7 @@ const AboutUs = () => {
               />
             </motion.div>
 
-            {/* Top Right Badge (Slides in diagonally from Top Right) */}
+            {/* Top Right Badge */}
             <motion.div
               variants={slideFromTopRight}
               className="absolute top-4 right-0 px-6 py-4 rounded-2xl
@@ -139,7 +144,7 @@ const AboutUs = () => {
               </h3>
             </motion.div>
 
-            {/* Bottom Left Badge (Slides in diagonally from Bottom Left) */}
+            {/* Bottom Left Badge */}
             <motion.div
               variants={slideFromBottomLeft}
               className="absolute bottom-12 left-0 px-5 py-3 rounded-2xl
@@ -152,7 +157,7 @@ const AboutUs = () => {
             </motion.div>
           </motion.div>
           
-        </motion.div>
+        </div>
 
         {/* ================= STATS (Separate Trigger, Slide Up) ================= */}
         <motion.div
@@ -162,7 +167,7 @@ const AboutUs = () => {
           className="border-t border-gray-200 mt-20 pt-12"
           variants={{
             visible: {
-              transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+              transition: { staggerChildren: 0.3, delayChildren: 0.2 } // Stats appear one by one slower
             }
           }}
         >

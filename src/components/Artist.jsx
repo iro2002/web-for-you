@@ -1,138 +1,149 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const stories = [
+// --- Feedback Data ---
+const feedbackData = [
   {
-    name: 'Alice Johnson',
-    role: 'CEO, TechCorp',
-    photo: 'https://randomuser.me/api/portraits/women/44.jpg',
-    testimonial:
-      'Working with this team was a game-changer. Their precision and creativity transformed our digital presence.',
+    id: 1,
+    name: "Sarah Jenkins",
+    role: "Founder",
+    company: "Lumina Tech",
+    content: "They didn't just build a website; they transformed our entire digital presence. The attention to detail and UI/UX design is unmatched. Our conversion rate increased by 40% in the first month.",
+    rating: 5,
+    image: "https://i.pravatar.cc/150?u=sarah"
   },
   {
-    name: 'Michael Lee',
-    role: 'Product Manager, WebSolutions',
-    photo: 'https://randomuser.me/api/portraits/men/32.jpg',
-    testimonial:
-      'Exceptional attention to detail and technical expertise. Our website feels modern and effortless.',
+    id: 2,
+    name: "Marcus Thorne",
+    role: "Marketing Director",
+    company: "Apex Tourism",
+    content: "Working with this team was a breeze. They understood our vision perfectly and delivered a blazing fast, secure platform. The custom animations gave our brand a massive competitive edge.",
+    rating: 5,
+    image: "https://i.pravatar.cc/150?u=marcus"
   },
   {
-    name: 'Sophia Kim',
-    role: 'Founder, CreativeLab',
-    photo: 'https://randomuser.me/api/portraits/women/68.jpg',
-    testimonial:
-      'Their design thinking approach made our project seamless. Highly recommend for any digital solution.',
-  },
+    id: 3,
+    name: "Elena Rodriguez",
+    role: "CEO",
+    company: "Elevate E-commerce",
+    content: "Absolutely phenomenal work. The e-commerce backend is flawless, and the frontend is gorgeous. They were responsive, professional, and delivered exactly what we needed ahead of schedule.",
+    rating: 5,
+    image: "https://i.pravatar.cc/150?u=elena"
+  }
 ];
 
-const ClientStories = () => {
-  const [current, setCurrent] = useState(0);
-  const total = stories.length;
+const ClientFeedback = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = feedbackData[activeIndex];
 
-  const next = () => setCurrent((prev) => (prev + 1) % total);
-  const prev = () => setCurrent((prev) => (prev - 1 + total) % total);
+  const handlePrev = () => setActiveIndex((p) => (p === 0 ? feedbackData.length - 1 : p - 1));
+  const handleNext = () => setActiveIndex((p) => (p === feedbackData.length - 1 ? 0 : p + 1));
+
+  const customEase = [0.22, 1, 0.36, 1];
 
   return (
-    <section className="relative w-full py-32 bg-[#F9FAFB] font-sans text-[#1A1A1E] overflow-hidden">
-      {/* Section Heading */}
-      <div className="max-w-4xl mx-auto px-6 text-center mb-24">
-        <motion.span
-          className="text-[11px] font-bold tracking-[0.4em] uppercase opacity-60"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+    <section id="feedback" className="relative w-full py-20 md:py-32 bg-[#F9FAFB] overflow-hidden">
+      {/* Top Horizontal Line */}
+      <div className="absolute top-0 left-0 w-full border-t border-gray-300 opacity-90" />
+
+      {/* Background Noise */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none z-0" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 z-10">
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.8, ease: customEase }}
+          className="mb-12 lg:mb-20 max-w-2xl lg:ml-auto flex flex-col items-start lg:items-end text-left lg:text-right"
         >
-          Client Stories
-        </motion.span>
-        <motion.h2
-          className="text-4xl md:text-5xl font-medium mt-4 leading-tight"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-        >
-          What Our Clients Say
-        </motion.h2>
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase text-[#1C0770]">Client Stories</span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1A1A1E]">
+            Transformations we've <span className="block text-transparent bg-clip-text bg-gradient-to-r lg:bg-gradient-to-l from-[#1C0770] to-blue-500">powered online.</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* LEFT: Desktop List */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col gap-4">
+            {feedbackData.map((client, index) => (
+              <button
+                key={client.id}
+                onClick={() => setActiveIndex(index)}
+                className={`flex items-center gap-5 text-left p-3 rounded-xl transition-opacity duration-300 ${
+                  index === activeIndex ? "opacity-100" : "opacity-50 hover:opacity-80"
+                }`}
+              >
+                <img src={client.image} className="w-14 h-14 rounded-full object-cover" alt={client.name} />
+                <div>
+                  <h4 className="font-bold text-[#1C0770]">{client.name}</h4>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{client.company}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* RIGHT: Content Area */}
+          <div className="lg:col-span-7">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 1.2, ease: customEase }}
+                className="flex flex-col justify-center min-h-[300px] space-y-6"
+              >
+                {/* Stars */}
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Feedback Text */}
+                <p className="text-xl md:text-2xl lg:text-3xl leading-relaxed text-[#1A1A1E] font-medium italic">
+                  "{active.content}"
+                </p>
+
+                {/* Mobile Identity + Arrows */}
+                <div className="flex items-center justify-between pt-4 lg:pt-0 border-t lg:border-none border-gray-200">
+                  <div className="flex items-center gap-4">
+                    <img src={active.image} className="w-12 h-12 rounded-full lg:hidden" alt={active.name} />
+                    <div>
+                      <p className="font-bold text-[#1A1A1E]">{active.name}</p>
+                      <p className="text-[10px] lg:text-xs font-bold tracking-widest text-[#1C0770] uppercase">{active.role}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 lg:hidden">
+                    <button onClick={handlePrev} className="p-3 rounded-full border border-gray-300 active:scale-95 transition-transform">
+                      <svg className="w-5 h-5 text-[#1C0770]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button onClick={handleNext} className="p-3 rounded-full border border-gray-300 active:scale-95 transition-transform">
+                      <svg className="w-5 h-5 text-[#1C0770]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
 
-      {/* Desktop Layout */}
-      <div className="hidden md:flex max-w-5xl mx-auto px-6 flex-col gap-24">
-        {stories.map((story, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: index * 0.3 }}
-            className="relative flex items-center gap-8"
-          >
-            <img
-              src={story.photo}
-              alt={story.name}
-              className="w-24 h-24 rounded-full object-cover flex-shrink-0"
-            />
-            <div>
-              <span className="text-[6rem] font-bold text-[#1C0770]/10 select-none -translate-y-8 block">
-                &ldquo;
-              </span>
-              <p className="text-xl md:text-2xl text-[#1A1A1E] leading-relaxed max-w-3xl">
-                {story.testimonial}
-              </p>
-              <div className="mt-4">
-                <span className="block text-[#1C0770] font-semibold text-lg">
-                  {story.name}
-                </span>
-                <span className="block text-gray-400 text-sm">{story.role}</span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Mobile Carousel */}
-      <div className="md:hidden relative max-w-md mx-auto px-6">
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={current}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.6, ease: 'easeInOut' }}
-            className="flex flex-col items-center text-center gap-6"
-          >
-            <img
-              src={stories[current].photo}
-              alt={stories[current].name}
-              className="w-20 h-20 rounded-full object-cover"
-            />
-            <span className="text-[4rem] font-bold text-[#1C0770]/10 select-none -translate-y-4 block">
-              &ldquo;
-            </span>
-            <p className="text-lg text-[#1A1A1E] leading-relaxed">
-              {stories[current].testimonial}
-            </p>
-            <span className="block text-[#1C0770] font-semibold text-base">
-              {stories[current].name}
-            </span>
-            <span className="block text-gray-400 text-sm">{stories[current].role}</span>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Arrow Buttons */}
-        <button
-          onClick={prev}
-          className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-md"
-        >
-          <ArrowLeft size={20} />
-        </button>
-        <button
-          onClick={next}
-          className="absolute top-1/2 right-2 -translate-y-1/2 bg-white/20 backdrop-blur-md p-2 rounded-full shadow-md"
-        >
-          <ArrowRight size={20} />
-        </button>
-      </div>
+      {/* Bottom Horizontal Line */}
+      <div className="absolute bottom-0 left-0 w-full border-t border-gray-300 opacity-90" />
     </section>
   );
 };
 
-export default ClientStories;
+export default ClientFeedback;
