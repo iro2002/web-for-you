@@ -1,13 +1,13 @@
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 
-const projects = [
+const ALL_PROJECTS = [
   {
     id: 1,
     title: "E-Commerce Revolution",
     tags: ["React", "Node.js", "Tailwind"],
     description: "A high-performance shopping experience with real-time inventory and glassmorphic UI.",
-    image: "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=1000", 
+    image: "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=1000",
   },
   {
     id: 2,
@@ -22,93 +22,110 @@ const projects = [
     tags: ["TypeScript", "Recharts", "Firebase"],
     description: "Complex data visualization simplified into a clean, intuitive dashboard for startups.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
-  }
+  },
+  {
+    id: 4,
+    title: "AI Marketing Suite",
+    tags: ["Python", "OpenAI", "Next.js"],
+    description: "Automating content creation using generative AI models.",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000",
+  },
 ];
 
 const Projects = () => {
+  const [visibleCount, setVisibleCount] = useState(3);
   const containerRef = useRef(null);
   
+  const currentProjects = ALL_PROJECTS.slice(0, visibleCount);
+  const hasMore = visibleCount < ALL_PROJECTS.length;
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 25,
+  });
 
-  // Laptop subtle 3D tilt
-  const rotateX = useTransform(smoothProgress, [0, 1], [10, -10]);
+  const rotateX = useTransform(smoothProgress, [0, 1], [8, -8]);
 
   return (
-    <section ref={containerRef} className="relative bg-[#F9FAFB] min-h-[400vh]">
-      
-      {/* ================= STICKY MOCKUP CONTAINER ================= */}
-      {/* top-[10vh] ensures it clears your header/notch area */}
-      <div className="sticky top-[12vh] lg:top-0 h-[40vh] lg:h-screen w-full lg:w-1/2 lg:ml-auto flex items-center justify-center z-30 pointer-events-none">
-        <motion.div 
-          style={{ rotateX, perspective: 1200 }} 
-          className="relative w-[90%] sm:w-[75%] lg:w-full max-w-[580px] pointer-events-auto shadow-2xl lg:shadow-none rounded-2xl"
-        >
-          {/* Screen Mockup Frame */}
-          <div className="relative bg-[#1A1A1E] rounded-xl lg:rounded-2xl p-1.5 lg:p-2.5 border-[2px] lg:border-[3px] border-[#333] shadow-2xl">
-            <div className="relative aspect-[16/10] bg-black rounded-md lg:rounded-lg overflow-hidden">
-              
-              {projects.map((project, i) => {
-                const start = i / projects.length;
-                const end = (i + 1) / projects.length;
-
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const opacity = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0]);
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                const scale = useTransform(smoothProgress, [start, start + 0.1], [0.8, 1]);
-
-                return (
-                  <motion.img
-                    key={project.id}
-                    src={project.image}
-                    style={{ opacity, scale }}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    alt={project.title}
-                  />
-                );
-              })}
-
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Laptop Hinge/Base */}
-          <div className="relative w-[110%] h-2 lg:h-3 bg-[#222] left-[-5%] rounded-b-xl border-t border-[#333]" />
-        </motion.div>
+    <section 
+      key={visibleCount} 
+      ref={containerRef} 
+      className="relative bg-[#F9FAFB] w-full"
+      style={{ minHeight: `${currentProjects.length * 100}vh` }}
+    >
+      {/* --- Global Background Elements (Hero.jsx Theme) --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[10%] left-[-5%] w-[40vw] h-[40vw] bg-[#1C0770]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[-5%] w-[35vw] h-[35vw] bg-blue-500/10 rounded-full blur-[120px]" />
       </div>
 
-      {/* ================= SCROLLING CONTENT ================= */}
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 z-10 lg:-mt-[100vh]">
-        <div className="flex flex-col lg:flex-row">
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        
+        {/* --- Header Section --- */}
+        <div className="pt-24 md:pt-32 pb-8">
+          <p className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#1C0770] mb-2">Our Portfolio</p>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#1C0770]">
+            Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">Works</span>
+          </h2>
+        </div>
+
+        <div className="flex flex-col lg:flex-row relative">
           
-          {/* LEFT CONTENT */}
-          <div className="w-full lg:w-1/2">
-            {projects.map((project, i) => (
-              <div key={project.id} className="h-screen flex flex-col justify-end lg:justify-center pb-10 lg:pb-0">
-                {/* Mobile: Use a margin-top to prevent text from overlapping the fixed laptop */}
-                <motion.div
-                  initial={{ opacity: 0, y: 50 }}
+          {/* MOCKUP: Pinned at top on Mobile, Centered on Desktop */}
+          <div className="sticky top-28 lg:top-0 h-[35vh] lg:h-screen w-full lg:w-1/2 flex items-center justify-center z-[40] pointer-events-none lg:order-2">
+            <motion.div 
+              style={{ rotateX, perspective: 1200 }} 
+              className="relative w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[580px] pointer-events-auto"
+            >
+              <div className="relative bg-[#0F0F12] rounded-xl lg:rounded-2xl p-1.5 lg:p-3 border-[3px] lg:border-[4px] border-[#2A2A2E] shadow-2xl">
+                <div className="relative aspect-[16/10] bg-slate-900 rounded-md lg:rounded-lg overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    {currentProjects.map((project, i) => {
+                      const start = i / currentProjects.length;
+                      const end = (i + 1) / currentProjects.length;
+                      const opacity = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0]);
+
+                      return (
+                        <motion.img
+                          key={project.id}
+                          src={project.image}
+                          style={{ opacity }}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          alt={project.title}
+                        />
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              </div>
+              <div className="relative w-[104%] h-2 bg-[#1A1A1E] left-[-2%] rounded-b-lg border-t border-white/10 shadow-lg" />
+            </motion.div>
+          </div>
+
+          {/* TEXT CONTENT: Scrolls "under" the laptop on mobile */}
+          <div className="w-full lg:w-1/2 flex flex-col z-20 lg:order-1 mt-[5vh] lg:mt-0">
+            {currentProjects.map((project, i) => (
+              <div key={project.id} className="min-h-[70vh] lg:min-h-screen flex flex-col justify-end lg:justify-center pb-24 lg:pb-0">
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  viewport={{ amount: 0.5 }}
-                  className="bg-white/95 backdrop-blur-lg lg:bg-transparent p-6 lg:p-0 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] lg:shadow-none border border-white lg:border-none relative z-40"
+                  viewport={{ margin: "-10%" }}
+                  className="bg-white/80 lg:bg-transparent backdrop-blur-xl lg:backdrop-blur-none p-8 lg:p-0 rounded-[2.5rem] border border-white/60 lg:border-none shadow-xl lg:shadow-none"
                 >
-                  <span className="text-[#1C0770] font-bold tracking-widest text-[10px] lg:text-xs mb-3 block uppercase">
-                    Project 0{i + 1}
-                  </span>
-                  <h3 className="text-3xl lg:text-6xl font-extrabold text-[#1A1A1E] mb-4 leading-tight">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm lg:text-lg max-w-md mb-6 font-medium">
-                    {project.description}
-                  </p>
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="w-8 h-[2px] bg-gradient-to-r from-[#1C0770] to-blue-500"></span>
+                    <span className="text-[#1C0770] font-bold text-xs uppercase tracking-widest">Project 0{i + 1}</span>
+                  </div>
+                  <h3 className="text-3xl lg:text-7xl font-bold text-[#1A1A1E] mb-4 tracking-tighter">{project.title}</h3>
+                  <p className="text-gray-600 text-base lg:text-xl max-w-md mb-8 leading-relaxed font-medium">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map(tag => (
-                      <span key={tag} className="text-[9px] lg:text-[10px] bg-gray-50 border border-gray-100 px-3 py-1 rounded-full font-bold text-gray-500 uppercase tracking-tighter">
+                      <span key={tag} className="text-[10px] bg-white border border-slate-200 px-3 py-1 rounded-full font-bold text-[#1C0770]/60 uppercase tracking-tighter shadow-sm">
                         {tag}
                       </span>
                     ))}
@@ -117,9 +134,19 @@ const Projects = () => {
               </div>
             ))}
           </div>
-
-          <div className="hidden lg:block lg:w-1/2 h-screen" />
         </div>
+
+        {/* --- LOAD MORE BUTTON --- */}
+        {hasMore && (
+          <div className="py-20 flex justify-center lg:justify-start lg:w-1/2">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 1)}
+              className="px-10 py-4 bg-[#1C0770] text-white rounded-full font-bold shadow-2xl active:scale-95 transition-all hover:bg-blue-700"
+            >
+              Explore More Projects
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
