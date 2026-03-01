@@ -79,24 +79,6 @@ const services = [
 ];
 
 const Services = () => {
-  // Framer Motion Variants - ENHANCED BOTTOM-UP ANIMATION
-  const cardVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 200, // Doubled the distance: starts much further down
-      scale: 0.8, // Slightly smaller when hidden for a "growing" effect as it rises
-    },
-    visible: (index) => ({
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { 
-        duration: 1.2, // Slightly longer duration to cover the massive distance smoothly
-        delay: index * 0.15, // Stagger effect
-        ease: [0.16, 1, 0.3, 1] // A very smooth, cinematic deceleration
-      }
-    }),
-  };
 
   return (
     <section 
@@ -164,14 +146,9 @@ const Services = () => {
 
         {/* --- Symmetrical Professional Grid --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <motion.div
               key={service.id}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }} // Triggers perfectly when 10% is visible
               whileHover="hover"
               className="group relative overflow-hidden rounded-3xl p-6 sm:p-8 transition-all duration-500 flex flex-col items-center text-center bg-white/40 border border-white/60 shadow-[0_4px_24px_rgba(28,7,112,0.03)] hover:shadow-[0_15px_40px_rgba(28,7,112,0.08)] backdrop-blur-2xl"
             >
@@ -185,7 +162,6 @@ const Services = () => {
 
               {/* Centered Liquid Icon Container */}
               <div className="relative z-10 w-16 h-16 mb-5 flex items-center justify-center">
-                {/* The flowing liquid shape behind the icon */}
                 <motion.div
                   animate={{
                     borderRadius: [
@@ -197,7 +173,6 @@ const Services = () => {
                   transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                   className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-white shadow-inner border border-white/50 z-0 group-hover:from-[#1C0770]/10 group-hover:to-blue-200/50 transition-colors duration-500"
                 />
-                {/* The actual Icon */}
                 <div className="relative z-10 text-[#1C0770] transition-transform duration-500 group-hover:scale-110">
                   {service.icon}
                 </div>
