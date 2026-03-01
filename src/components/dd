@@ -79,46 +79,68 @@ const services = [
 ];
 
 const Services = () => {
-  // --- Simple Fade + Scale Animation ---
+  // Framer Motion Variants - ENHANCED BOTTOM-UP ANIMATION
   const cardVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" } },
+    hidden: { 
+      opacity: 0, 
+      y: 200, // Doubled the distance: starts much further down
+      scale: 0.8, // Slightly smaller when hidden for a "growing" effect as it rises
+    },
+    visible: (index) => ({
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { 
+        duration: 1.2, // Slightly longer duration to cover the massive distance smoothly
+        delay: index * 0.15, // Stagger effect
+        ease: [0.16, 1, 0.3, 1] // A very smooth, cinematic deceleration
+      }
+    }),
   };
 
   return (
-    <section
-      id="services"
+    <section 
+      id="services" 
       className="relative w-full py-16 md:py-24 overflow-hidden bg-[#F9FAFB] text-[#1A1A1E] flex flex-col items-center justify-center"
     >
-      {/* Ambient Background Blobs */}
+      {/* --- Ambient Background Liquid Blobs --- */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <motion.div
-          animate={{ x: [0, -15, 10, 0], y: [0, 15, -10, 0], scale: [1, 1.05, 0.95, 1] }}
+          animate={{
+            x: [0, -30, 15, 0],
+            y: [0, 30, -15, 0],
+            scale: [1, 1.1, 0.9, 1],
+          }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-[#1C0770]/5 rounded-full blur-[80px]"
         />
         <motion.div
-          animate={{ x: [0, 15, -10, 0], y: [0, -15, 10, 0], scale: [1, 1.1, 0.9, 1] }}
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -30, 20, 0],
+            scale: [1, 1.2, 0.8, 1],
+          }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-[-10%] right-[-5%] w-[35vw] h-[35vw] max-w-[400px] max-h-[400px] bg-blue-500/10 rounded-full blur-[80px]"
         />
       </div>
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-6">
-        {/* Section Header */}
+        
+        {/* --- Centered Section Header --- */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16 flex flex-col items-center">
           <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="inline-block text-[10px] font-bold tracking-[0.3em] uppercase mb-3 text-[#1C0770] opacity-80"
           >
             Our Expertise
           </motion.span>
-
+          
           <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-4 text-center"
@@ -130,8 +152,8 @@ const Services = () => {
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
             className="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xl mt-2"
@@ -140,31 +162,59 @@ const Services = () => {
           </motion.p>
         </div>
 
-        {/* Services Grid */}
+        {/* --- Symmetrical Professional Grid --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <motion.div
               key={service.id}
+              custom={index}
               variants={cardVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              whileHover={{ scale: 1.03 }}
-              className="group relative overflow-hidden rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center bg-white/40 border border-white/60 shadow-[0_4px_24px_rgba(28,7,112,0.03)] hover:shadow-[0_10px_30px_rgba(28,7,112,0.08)] backdrop-blur-2xl transition-all duration-300"
+              viewport={{ once: true, amount: 0.1 }} // Triggers perfectly when 10% is visible
+              whileHover="hover"
+              className="group relative overflow-hidden rounded-3xl p-6 sm:p-8 transition-all duration-500 flex flex-col items-center text-center bg-white/40 border border-white/60 shadow-[0_4px_24px_rgba(28,7,112,0.03)] hover:shadow-[0_15px_40px_rgba(28,7,112,0.08)] backdrop-blur-2xl"
             >
-              {/* Icon Container */}
-              <div className="relative w-16 h-16 mb-5 flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-white shadow-inner border border-white/50 rounded-full" />
-                <div className="relative z-10 text-[#1C0770]">{service.icon}</div>
+              {/* Internal Expanding Liquid Hover Effect */}
+              <motion.div
+                variants={{
+                  hover: { scale: 2.5, opacity: 0.6 }
+                }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-tr from-[#1C0770]/5 to-blue-400/10 blur-xl z-0 rounded-full transition-all duration-700 ease-out pointer-events-none"
+              />
+
+              {/* Centered Liquid Icon Container */}
+              <div className="relative z-10 w-16 h-16 mb-5 flex items-center justify-center">
+                {/* The flowing liquid shape behind the icon */}
+                <motion.div
+                  animate={{
+                    borderRadius: [
+                      "40% 60% 70% 30% / 40% 50% 60% 50%",
+                      "60% 40% 30% 70% / 60% 30% 70% 40%",
+                      "40% 60% 70% 30% / 40% 50% 60% 50%",
+                    ],
+                  }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-white shadow-inner border border-white/50 z-0 group-hover:from-[#1C0770]/10 group-hover:to-blue-200/50 transition-colors duration-500"
+                />
+                {/* The actual Icon */}
+                <div className="relative z-10 text-[#1C0770] transition-transform duration-500 group-hover:scale-110">
+                  {service.icon}
+                </div>
               </div>
 
-              {/* Text */}
-              <h3 className="text-lg sm:text-xl font-bold mb-2 text-[#1C0770]">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed text-xs sm:text-sm max-w-[260px]">
-                {service.description}
-              </p>
+              {/* Text Content */}
+              <div className="relative z-10 flex flex-col items-center flex-grow">
+                <h3 className="text-lg sm:text-xl font-bold mb-2 text-[#1C0770]">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed text-xs sm:text-sm max-w-[260px]">
+                  {service.description}
+                </p>
+              </div>
+
+              {/* Subtle Animated Bottom Border Line on Hover */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[3px] bg-gradient-to-r from-[#1C0770] to-blue-500 transition-all duration-500 ease-out group-hover:w-full opacity-0 group-hover:opacity-100" />
             </motion.div>
           ))}
         </div>
