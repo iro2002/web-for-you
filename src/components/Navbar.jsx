@@ -8,7 +8,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 
-import heroBg from "../images/hero-bg.PNG";
+import heroBg from "../images/hero-bg.png";
 
 const TechnicalHero = () => {
   const [isLoading, setIsLoading] = useState(true);
