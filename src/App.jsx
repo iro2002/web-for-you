@@ -26,8 +26,7 @@ const App = () => {
       <Album />
 
       <Price />
-    
-      <Contact />
+
     
       
       <Faq />

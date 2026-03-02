@@ -1,88 +1,164 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  // --- Link Data ---
+  const quickLinks = [
+    { name: "Home", href: "#home" },
+    { name: "About Us", href: "#about" },
+    { name: "Services", href: "#services" },
+    { name: "Portfolio", href: "#portfolio" },
+    { name: "Contact", href: "#contact" },
+  ];
+
+  const servicesLinks = [
+    { name: "Web Development", href: "#" },
+    { name: "Mobile Apps", href: "#" },
+    { name: "UI/UX Design", href: "#" },
+    { name: "E-Commerce", href: "#" },
+    { name: "SEO Optimization", href: "#" },
+  ];
+
+  const socialLinks = [
+    { name: "LinkedIn", url: "#", icon: <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z M2 9h4v12H2z M4 2a2 2 0 1 1-2 2 2 2 0 0 1 2-2z" /> },
+    { name: "Twitter", url: "#", icon: <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" /> },
+    { name: "GitHub", url: "#", icon: <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /> },
+  ];
+
   return (
-    <footer className="relative w-full py-12 px-6 bg-[#F3F4F6] overflow-hidden">
-      {/* The Glass Container */}
-      <div className="max-w-7xl mx-auto relative">
-        <div className="relative p-10 md:p-16 rounded-[3rem] bg-white/40 backdrop-blur-2xl 
-                        border-t border-l border-white/70 border-b border-r border-white/20
-                        shadow-[20px_20px_60px_rgba(0,0,0,0.03),-10px_-10px_40px_rgba(255,255,255,0.8)]
-                        flex flex-col md:flex-row justify-between items-start gap-12">
+    <footer
+      className="relative bg-[#1C0770] text-white overflow-hidden"
+      style={{ fontFamily: "'Inter', sans-serif" }}
+    >
+      {/* Background Noise Texture */}
+      <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none mix-blend-overlay" />
+
+      {/* Decorative Blur */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] -z-10 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-10">
+        
+        {/* Top Section: Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
           
-          {/* Brand Section */}
-          <div className="max-w-xs">
-            <h2 className="text-2xl font-black tracking-tighter text-[#1C0770] mb-4">
-              GLASSDESIGN<span className="text-blue-500">.</span>
+          {/* Column 1: Brand Info (Takes up more space) */}
+          <div className="lg:col-span-4 flex flex-col">
+            <h2 className="text-3xl font-bold tracking-tight mb-6">
+              Modern<span className="text-blue-400">Web.</span>
             </h2>
-            <p className="text-slate-500 text-sm leading-relaxed font-medium">
-              Creating fluid digital experiences through minimalist aesthetics and liquid glass interfaces.
+            <p className="text-gray-300/80 text-sm leading-relaxed mb-8 max-w-sm">
+              We create fast, responsive, and professional websites that help your business grow and stand out online. Built with passion and precision.
             </p>
-          </div>
-
-          {/* Quick Links */}
-          <div className="grid grid-cols-2 gap-12 md:gap-24">
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Navigation</span>
-              <ul className="space-y-2 text-sm font-bold text-slate-700">
-                <li className="hover:text-[#1C0770] cursor-pointer transition-colors">Projects</li>
-                <li className="hover:text-[#1C0770] cursor-pointer transition-colors">Pricing</li>
-                <li className="hover:text-[#1C0770] cursor-pointer transition-colors">Contact</li>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Social</span>
-              <ul className="space-y-2 text-sm font-bold text-slate-700">
-                <li className="hover:text-[#1C0770] cursor-pointer transition-colors">Twitter</li>
-                <li className="hover:text-[#1C0770] cursor-pointer transition-colors">Dribbble</li>
-                <li className="hover:text-[#1C0770] cursor-pointer transition-colors">LinkedIn</li>
-              </ul>
+            
+            {/* Social Icons */}
+            <div className="flex gap-4">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.name}
+                  href={social.url}
+                  whileHover={{ y: -4, scale: 1.1, backgroundColor: "rgba(59, 130, 246, 0.2)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:text-blue-400 transition-colors"
+                  aria-label={social.name}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {social.icon}
+                  </svg>
+                </motion.a>
+              ))}
             </div>
           </div>
 
-          {/* Newsletter / CTA with Premium Button */}
-          <div className="w-full md:w-auto">
-            <div className="bg-white/50 p-1.5 rounded-2xl border border-white flex items-center shadow-inner min-w-[300px]">
-              <input 
-                type="email" 
-                placeholder="Join the waitlist" 
-                className="bg-transparent border-none outline-none px-4 text-sm font-medium w-full md:w-48 placeholder:text-slate-400"
-              />
-              
-              {/* --- UPDATED PREMIUM BUTTON --- */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.96 }}
-                className="relative group px-6 py-2.5 rounded-xl overflow-hidden text-[10px] font-bold tracking-[0.1em] uppercase whitespace-nowrap"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-[#1C0770] via-[#2b0bb5] to-[#3b82f6]" />
-                <div className="absolute inset-0 backdrop-blur-md bg-white/10 opacity-0 group-hover:opacity-100 transition duration-500" />
-                <div className="absolute -left-20 top-0 h-full w-20 bg-white/20 rotate-12 group-hover:left-full transition-all duration-700 ease-in-out" />
-                <span className="relative z-10 text-white font-black">Submit</span>
-              </motion.button>
-              {/* --- END UPDATED BUTTON --- */}
+          {/* Column 2: Quick Links */}
+          <div className="lg:col-span-2 lg:col-start-6">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-6">
+              Company
+            </h3>
+            <ul className="flex flex-col gap-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <motion.a
+                    href={link.href}
+                    whileHover={{ x: 5, color: "#60A5FA" }} // Slides slightly right and turns blue
+                    className="text-gray-300/80 text-sm transition-colors inline-block"
+                  >
+                    {link.name}
+                  </motion.a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            </div>
+          {/* Column 3: Services */}
+          <div className="lg:col-span-3">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-6">
+              Expertise
+            </h3>
+            <ul className="flex flex-col gap-3">
+              {servicesLinks.map((link) => (
+                <li key={link.name}>
+                  <motion.a
+                    href={link.href}
+                    whileHover={{ x: 5, color: "#60A5FA" }}
+                    className="text-gray-300/80 text-sm transition-colors inline-block"
+                  >
+                    {link.name}
+                  </motion.a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Contact */}
+          <div className="lg:col-span-3">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-6">
+              Get in Touch
+            </h3>
+            <ul className="flex flex-col gap-4">
+              <li className="flex items-start gap-3 text-gray-300/80 text-sm">
+                <svg className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+                <a href="mailto:hello@modernweb.com" className="hover:text-blue-400 transition-colors">
+                  hello@modernweb.com
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-gray-300/80 text-sm">
+                <svg className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                </svg>
+                <a href="tel:+1234567890" className="hover:text-blue-400 transition-colors">
+                  +1 (234) 567-890
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-gray-300/80 text-sm">
+                <svg className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+                <span>
+                  123 Innovation Drive,<br />
+                  Tech City, TC 90210
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center px-8 gap-4">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-            © {currentYear} Liquid Glass UI. All rights reserved.
+        {/* Bottom Section: Copyright */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-400 text-xs sm:text-sm">
+            &copy; {currentYear} Modern Web Solutions. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <span className="text-[11px] font-bold text-slate-400 hover:text-slate-600 cursor-pointer uppercase tracking-widest transition-colors">Privacy</span>
-            <span className="text-[11px] font-bold text-slate-400 hover:text-slate-600 cursor-pointer uppercase tracking-widest transition-colors">Terms</span>
+            <a href="#" className="text-gray-400 text-xs sm:text-sm hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="text-gray-400 text-xs sm:text-sm hover:text-white transition-colors">Terms of Service</a>
           </div>
         </div>
-      </div>
 
-      {/* Subtle "Light Leak" behind the glass */}
-      <div className="absolute bottom-[-10%] right-[10%] w-64 h-64 bg-blue-400/10 rounded-full blur-[100px] pointer-events-none" />
+      </div>
     </footer>
   );
 };

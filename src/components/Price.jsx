@@ -150,7 +150,9 @@ const PricePlan = () => {
           </motion.span>
 
           <motion.h2 variants={headerVariants} className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-4 text-[#1C0770]">
-            Ready to Scale?
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#1C0770]">
+            Pricing <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">strategy</span>
+          </h2>
           </motion.h2>
         </motion.div>
 

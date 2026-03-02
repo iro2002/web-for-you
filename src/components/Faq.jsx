@@ -1,56 +1,82 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus } from "lucide-react";
 
-const faqData = [
+const FAQS = [
   {
-    question: "How long does a typical website project take?",
-    answer: "Most standard business websites are completed within 3-5 weeks. More complex platforms with custom integrations typically take 6-10 weeks from discovery to launch."
+    question: "What is your typical project timeline?",
+    answer:
+      "For our Starter package, we typically launch within 2-3 weeks. Professional and Enterprise projects generally take 4-8 weeks, depending on the complexity of custom animations, API integrations, and the feedback loop during the design phase.",
   },
   {
-    question: "Do you provide post-launch support and maintenance?",
-    answer: "Yes, we offer flexible maintenance packages that include security updates, performance monitoring, and content updates to ensure your site stays fast."
+    question: "Do you offer ongoing support after launch?",
+    answer:
+      "Absolutely. Every plan includes an initial support period. After that, we offer dedicated monthly maintenance retainers to handle updates, security, SEO monitoring, and feature additions so your digital presence stays sharp.",
   },
   {
-    question: "Will my website be mobile-friendly and SEO-optimized?",
-    answer: "Absolutely. Every site we build is 'mobile-first' and undergoes a rigorous SEO audit to ensure clean metadata and lightning-fast load speeds."
+    question: "Can we upgrade our plan later?",
+    answer:
+      "Yes! Many of our clients start with the Professional package and upgrade to Enterprise as their user base and technical requirements grow. We build everything with scalability in mind, making upgrades seamless.",
   },
   {
-    question: "Can you redesign an existing website?",
-    answer: "We specialize in digital transformations. We can take your existing content and brand and wrap it in a modern, high-performance architecture."
-  }
+    question: "Who writes the content for the website?",
+    answer:
+      "While you are the expert on your business, we can provide professional copywriting services as an add-on. If you prefer to provide your own content, we will guide you with structural templates to ensure it fits perfectly into the design.",
+  },
+  {
+    question: "Do you build custom e-commerce solutions?",
+    answer:
+      "Yes, our Enterprise tier includes full e-commerce readiness. We integrate with leading platforms like Shopify, WooCommerce, or build custom headless storefronts tailored entirely to your specific operational needs.",
+  },
 ];
 
-const FAQItem = ({ question, answer, isOpen, onClick }) => {
-  const customEase = [0.19, 1, 0.22, 1];
-
+const FAQItem = ({ faq, isOpen, onClick, isLast }) => {
   return (
-    <div className="relative group">
-      {/* Subtle background glow on hover or when open - no hard card borders */}
-      <div 
-        className={`absolute -inset-x-4 -inset-y-2 rounded-2xl transition-colors duration-500 z-0 ${
-          isOpen ? "bg-blue-50/50" : "group-hover:bg-gray-50/50"
-        }`} 
-      />
-
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { type: "spring", stiffness: 70, damping: 15 },
+        },
+      }}
+      className={`overflow-hidden border-b ${
+        isLast ? "border-transparent" : "border-gray-200"
+      }`}
+    >
       <button
         onClick={onClick}
-        className="relative z-10 flex w-full items-center justify-between py-8 text-left outline-none"
+        className="w-full flex items-center justify-between py-6 md:py-8 text-left focus:outline-none group"
       >
-        <span className={`text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${
-          isOpen ? "text-[#1C0770]" : "text-[#1A1A1E]"
-        }`}>
-          {question}
-        </span>
-        
-        {/* Minimalist Icon: Vertical line disappears to turn + into - */}
-        <div className="relative flex h-5 w-5 items-center justify-center ml-4">
-          <div className="h-[2px] w-full bg-[#1C0770] rounded-full" />
+        <h4
+          className={`text-lg md:text-2xl tracking-tight pr-6 transition-colors duration-300 font-normal ${
+            isOpen
+              ? "text-[#1C0770]"
+              : "text-[#1A1A1E] group-hover:text-[#1C0770]/70"
+          }`}
+        >
+          {faq.question}
+        </h4>
+
+        <div
+          className={`flex-shrink-0 transition-colors duration-300 ${
+            isOpen
+              ? "text-[#1C0770]"
+              : "text-gray-400 group-hover:text-[#1C0770]"
+          }`}
+        >
           <motion.div
             initial={false}
-            animate={{ scaleY: isOpen ? 0 : 1, opacity: isOpen ? 0 : 1 }}
-            className="absolute h-full w-[2px] bg-[#1C0770] rounded-full"
+            animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-          />
+          >
+            {isOpen ? (
+              <Minus className="w-5 h-5 stroke-[2px]" />
+            ) : (
+              <Plus className="w-5 h-5 stroke-[2px]" />
+            )}
+          </motion.div>
         </div>
       </button>
 
@@ -60,85 +86,81 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: customEase }}
-            className="relative z-10 overflow-hidden"
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <p className="pb-8 text-sm md:text-base text-gray-500 max-w-2xl leading-relaxed">
-              {answer}
-            </p>
+            <div className="pb-8 pt-0 text-gray-500 text-sm md:text-base font-normal leading-relaxed md:pr-12">
+              {faq.answer}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Thin divider line */}
-      <div className="h-[1px] w-full bg-gray-200/60" />
-    </div>
+    </motion.div>
   );
 };
 
-const QandA = () => {
-  const [openIndex, setOpenIndex] = useState(0);
+const FAQ = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
 
   return (
-    <section id="faq" className="relative w-full py-24 md:py-32 bg-[#F9FAFB] overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
-      
-      {/* Decorative Wave-like Shape (matches your hero) */}
-      <motion.div 
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-400/10 rounded-full blur-[100px] pointer-events-none"
-      />
+    <section className="relative py-24 bg-white overflow-hidden min-h-screen flex flex-col justify-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-12 w-full">
 
-      <div className="relative max-w-3xl mx-auto px-6 z-10">
-        
-        {/* Header - Aligned Left for a more modern, technical feel */}
-        <div className="mb-16">
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: "40px" }}
-            className="h-[2px] bg-[#1C0770] mb-6"
-          />
-          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#1C0770] block mb-2">
-            Details
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-[#1A1A1E]">
-            Frequently <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">
-              Asked Questions.
-            </span>
-          </h2>
-        </div>
-
-        {/* Accordion List - No Wrapper Card */}
-        <div className="flex flex-col">
-          {faqData.map((item, index) => (
-            <FAQItem
-              key={index}
-              question={item.question}
-              answer={item.answer}
-              isOpen={openIndex === index}
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            />
-          ))}
-        </div>
-
-        {/* Footer Link */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mt-16 pt-8 text-left"
+        {/* ✅ FIXED HEADER (no nested h2) */}
+        <motion.h2
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-4xl md:text-6xl font-bold tracking-tight text-[#1C0770] mb-12 text-center"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400">
-            Still Curious?{" "}
-            <a href="#contact" className="text-[#1C0770] border-b-2 border-[#1C0770]/20 hover:border-[#1C0770] transition-all ml-2">
-              Get in touch
-            </a>
-          </p>
-        </motion.div>
+          Pricing{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">
+            strategy
+          </span>
+        </motion.h2>
 
+        {/* FAQ List Area */}
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="flex flex-col"
+          >
+            {FAQS.map((faq, index) => (
+              <FAQItem
+                key={index}
+                faq={faq}
+                isOpen={activeIndex === index}
+                isLast={index === FAQS.length - 1}
+                onClick={() =>
+                  setActiveIndex(activeIndex === index ? null : index)
+                }
+              />
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-export default QandA;
+export default FAQ;

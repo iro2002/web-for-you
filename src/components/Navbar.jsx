@@ -30,7 +30,6 @@ const TechnicalHero = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // We keep the spring values in case you want to use them for parallax elements later
   const mouseX = useSpring(x, { stiffness: 120, damping: 25 });
   const mouseY = useSpring(y, { stiffness: 120, damping: 25 });
 
@@ -60,28 +59,41 @@ const TechnicalHero = () => {
 
   return (
     <div className="relative">
-      {/* Preloader */}
+      {/* Preloader - Glassmorphism & SVG */}
       <AnimatePresence>
         {isLoading && (
           <motion.div
             key="loader"
-            exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#1C0770] text-white"
+            // Fading out a glass element looks smoother than sliding it
+            exit={{ opacity: 0, backdropFilter: "blur(0px)", transition: { duration: 0.8, ease: "easeInOut" } }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/40 backdrop-blur-xl text-[#1C0770]"
           >
+            {/* Animated SVG Spinner */}
+            <motion.svg
+              className="w-16 h-16 mb-6"
+              viewBox="0 0 50 50"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+            >
+              <circle
+                cx="25"
+                cy="25"
+                r="20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeDasharray="31.4 100" // Creates the broken circle effect
+                strokeLinecap="round"
+              />
+            </motion.svg>
+
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               className="mb-4 text-4xl font-bold tracking-tighter"
             >
               {loadingProgress}%
             </motion.div>
-            <div className="w-48 h-[2px] bg-white/10 relative overflow-hidden">
-              <motion.div
-                className="absolute top-0 left-0 h-full bg-blue-400"
-                initial={{ width: 0 }}
-                animate={{ width: `${loadingProgress}%` }}
-              />
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -139,7 +151,7 @@ const TechnicalHero = () => {
             />
           </motion.svg>
 
-          {/* Grainy Noise Overlay - Kept for texture! */}
+          {/* Grainy Noise Overlay */}
           <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
         </div>
 

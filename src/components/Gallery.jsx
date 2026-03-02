@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
 import aboutImg from "../images/abouth.png"; 
 
 // --- Stats Data ---
@@ -9,6 +9,32 @@ const statsData = [
   { id: 3, value: "5+", label: "Years Experience" },
   { id: 4, value: "100%", label: "Client Satisfaction" },
 ];
+
+// --- Number Counter Component ---
+const AnimatedNumber = ({ value }) => {
+  // Extract the number and the suffix (e.g., "+" or "%")
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ""), 10);
+  const suffix = value.replace(/[0-9]/g, "");
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const count = useMotionValue(0);
+  
+  // Format the number to round it and append the suffix
+  const rounded = useTransform(count, (latest) => Math.round(latest) + suffix);
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(count, numericValue, {
+        duration: 2.2, // Matches your ultra-slow duration
+        ease: [0.22, 1, 0.36, 1], // Matches your customEase
+      });
+      return controls.stop;
+    }
+  }, [isInView, numericValue, count]);
+
+  return <motion.span ref={ref}>{rounded}</motion.span>;
+};
 
 const AboutUs = () => {
   // ---- Unified Professional Ease ----
@@ -179,7 +205,8 @@ const AboutUs = () => {
                 className="flex flex-col border-l-2 border-[#1C0770]/20 pl-6"
               >
                 <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-[#1C0770] to-blue-500 mb-1">
-                  {stat.value}
+                  {/* Replaced static value with AnimatedNumber component */}
+                  <AnimatedNumber value={stat.value} />
                 </span>
                 <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest">
                   {stat.label}
