@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Facebook, MessageCircle, Plus, X } from "lucide-react";
+import { Instagram, Facebook, MessageCircle, X } from "lucide-react";
 
 const socials = [
   { 
     icon: MessageCircle, 
     url: "https://wa.me/94722006206", 
-    label: "WhatsApp", 
-    color: "text-emerald-400" // lighter green for dark theme
+    label: "WhatsApp"
   },
   { 
     icon: Instagram, 
     url: "https://www.instagram.com/tropicalwedlock_lk?igsh=MXRoeTExMnRqYjk5bA==", 
-    label: "Instagram", 
-    color: "text-pink-400" 
+    label: "Instagram"
   },
   { 
     icon: Facebook, 
     url: "https://www.facebook.com/TropicalWedlock", 
-    label: "Facebook", 
-    color: "text-blue-400" 
+    label: "Facebook"
   },
 ];
 
 const LiquidMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Using the same smooth ease as your AboutUs section
+  const customEase = [0.22, 1, 0.36, 1];
+
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-50">
+    <div className="fixed bottom-6 right-6 flex flex-col items-end gap-3 z-[100]" style={{ fontFamily: "'Inter', sans-serif" }}>
       
       {/* Social Buttons */}
       <AnimatePresence>
@@ -37,7 +37,7 @@ const LiquidMenu = () => {
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.8 }}
-            transition={{ duration: 0.3, staggerChildren: 0.1 }}
+            transition={{ duration: 0.4, ease: customEase, staggerChildren: 0.1, staggerDirection: -1 }}
           >
             {socials.map((social, idx) => (
               <motion.a
@@ -49,16 +49,16 @@ const LiquidMenu = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                transition={{ delay: idx * 0.1 }}
+                transition={{ duration: 0.3, ease: customEase }}
               >
                 {/* Label (Tooltip) */}
-                <span className="bg-gray-800 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <span className="bg-[#1C0770] text-white text-[10px] font-bold uppercase tracking-[0.15em] px-3 py-1.5 rounded-md shadow-[0_4px_15px_rgba(28,7,112,0.2)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                   {social.label}
                 </span>
 
-                {/* Icon Circle */}
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-900 shadow-lg border border-gray-700 hover:scale-110 transition-transform duration-300">
-                  <social.icon className={`w-5 h-5 ${social.color}`} strokeWidth={1.5} />
+                {/* Icon Circle - Clean, colorless icons */}
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_20px_rgb(0,0,0,0.08)] border border-black/5 hover:scale-110 transition-transform duration-300">
+                  <social.icon className="w-5 h-5 text-[#1C0770]" strokeWidth={2} />
                 </div>
               </motion.a>
             ))}
@@ -69,10 +69,10 @@ const LiquidMenu = () => {
       {/* Main Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className={`relative flex items-center justify-center w-14 h-14 rounded-full shadow-2xl transition-colors duration-300 ${
+        className={`relative flex items-center justify-center w-14 h-14 rounded-full text-white transition-all duration-300 z-50 ${
             isOpen 
-              ? "bg-gray-800 text-white" 
-              : "bg-gray-900 text-white hover:bg-gray-800"
+              ? "bg-[#1C0770] shadow-[0_10px_25px_rgba(28,7,112,0.3)]" 
+              : "bg-gradient-to-r from-[#1C0770] via-[#2b0bb5] to-[#3b82f6] shadow-[0_10px_25px_rgba(28,7,112,0.3)] hover:shadow-[0_15px_30px_rgba(28,7,112,0.4)]"
         }`}
         whileTap={{ scale: 0.9 }}
       >
@@ -85,7 +85,7 @@ const LiquidMenu = () => {
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <X size={24} />
+              <X size={24} strokeWidth={2.5} />
             </motion.div>
           ) : (
             <motion.div
@@ -95,7 +95,7 @@ const LiquidMenu = () => {
               exit={{ rotate: -90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <Plus size={24} />
+              <MessageCircle size={24} strokeWidth={2} />
             </motion.div>
           )}
         </AnimatePresence>
