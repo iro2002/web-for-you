@@ -8,8 +8,6 @@ import {
   AnimatePresence,
 } from "framer-motion";
 
-import heroBg from "../images/hero-bg.png";
-
 const TechnicalHero = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -31,6 +29,8 @@ const TechnicalHero = () => {
   const { scrollY } = useScroll();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+
+  // We keep the spring values in case you want to use them for parallax elements later
   const mouseX = useSpring(x, { stiffness: 120, damping: 25 });
   const mouseY = useSpring(y, { stiffness: 120, damping: 25 });
 
@@ -93,17 +93,53 @@ const TechnicalHero = () => {
         style={{ perspective: "1500px", fontFamily: "'Inter', sans-serif" }}
         aria-label="Hero section for web development services"
       >
-        {/* Background */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <motion.div
-            className="absolute inset-0 bg-cover bg-center will-change-transform"
-            style={{ backgroundImage: `url(${heroBg})` }}
-            initial={{ scale: 1.3, opacity: 0 }}
-            animate={!isLoading ? { scale: 1.1, opacity: 1 } : {}}
-            transition={{ duration: 2, ease: "easeOut" }}
-            role="img"
-          />
-          <div className="absolute inset-0 bg-white/85" />
+        {/* Animated Wave Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Wave 1 (Back, darker, slower) */}
+          <motion.svg
+            className="absolute bottom-0 w-full h-[60vh] text-[#1C0770]/5"
+            preserveAspectRatio="none"
+            viewBox="0 0 1440 320"
+            initial={{ y: 100, opacity: 0 }}
+            animate={!isLoading ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          >
+            <motion.path
+              fill="currentColor"
+              animate={{
+                d: [
+                  "M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,144C672,149,768,203,864,213.3C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,192L48,181.3C96,171,192,149,288,160C384,171,480,213,576,208C672,203,768,149,864,138.7C960,128,1056,160,1152,186.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,160L48,170.7C96,181,192,203,288,192C384,181,480,139,576,144C672,149,768,203,864,213.3C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                ],
+              }}
+              transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
+            />
+          </motion.svg>
+
+          {/* Wave 2 (Front, lighter blue, faster) */}
+          <motion.svg
+            className="absolute bottom-0 w-full h-[45vh] text-blue-500/10"
+            preserveAspectRatio="none"
+            viewBox="0 0 1440 320"
+            initial={{ y: 100, opacity: 0 }}
+            animate={!isLoading ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+          >
+            <motion.path
+              fill="currentColor"
+              animate={{
+                d: [
+                  "M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,186.7C672,171,768,117,864,112C960,107,1056,149,1152,170.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,160L48,176C96,192,192,224,288,218.7C384,213,480,171,576,170.7C672,171,768,213,864,224C960,235,1056,213,1152,186.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                  "M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,186.7C672,171,768,117,864,112C960,107,1056,149,1152,170.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                ],
+              }}
+              transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+            />
+          </motion.svg>
+
+          {/* Grainy Noise Overlay - Kept for texture! */}
           <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
         </div>
 
@@ -135,7 +171,7 @@ const TechnicalHero = () => {
             business grow and stand out online.
           </motion.p>
 
-          {/* Buttons - Adjusted width for mobile */}
+          {/* Buttons */}
           <motion.div
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center w-full mb-10"
@@ -163,12 +199,12 @@ const TechnicalHero = () => {
             </motion.a>
           </motion.div>
 
-          {/* Stats Box - Larger sizing */}
+          {/* Stats Box */}
           <motion.div
             variants={itemVariants}
             className="w-full max-w-4xl relative overflow-hidden rounded-2xl md:rounded-3xl backdrop-blur-xl bg-white/40 border border-white/50 shadow-[0_8px_32px_rgba(28,7,112,0.08)] py-8 px-6 sm:p-12 flex flex-row items-center justify-evenly sm:justify-between gap-4 sm:gap-0"
           >
-            {/* Liquid Blobs */}
+            {/* Liquid Blobs inside the stat box */}
             <motion.div
               animate={{
                 x: [0, 20, -10, 0],

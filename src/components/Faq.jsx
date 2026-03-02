@@ -1,128 +1,144 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus, HelpCircle, Sparkles } from "lucide-react";
 
-const FAQ_DATA = [
+const faqData = [
   {
-    question: "How long does a typical project take?",
-    answer: "A standard high-performance website usually takes 3-6 weeks. Complexity, custom animations, and backend integrations can shift this timeline, but we prioritize velocity without compromising 'pixel-perfection'.",
+    question: "How long does a typical website project take?",
+    answer: "Most standard business websites are completed within 3-5 weeks. More complex platforms with custom integrations typically take 6-10 weeks from discovery to launch."
   },
   {
-    question: "Do you handle hosting and maintenance?",
-    answer: "Absolutely. We deploy on edge-network infrastructure (Vercel/AWS) for lightning speeds. We also offer 'Legacy Support' packages to keep your site updated with the latest web standards.",
+    question: "Do you provide post-launch support and maintenance?",
+    answer: "Yes, we offer flexible maintenance packages that include security updates, performance monitoring, and content updates to ensure your site stays fast."
   },
   {
-    question: "Will my site be SEO optimized?",
-    answer: "SEO isn't an afterthought; it's baked into our code. From Semantic HTML to Core Web Vitals and Schema Markup, we ensure search engines love your site as much as your users do.",
+    question: "Will my website be mobile-friendly and SEO-optimized?",
+    answer: "Absolutely. Every site we build is 'mobile-first' and undergoes a rigorous SEO audit to ensure clean metadata and lightning-fast load speeds."
   },
   {
-    question: "Can we integrate custom AI features?",
-    answer: "Yes. We specialize in integrating LLMs and generative AI directly into your UI, creating smart dashboards or automated content systems tailored to your business logic.",
-  },
-  {
-    question: "What is your typical payment structure?",
-    answer: "We usually work on a 50/50 split (Commencement/Launch) or a milestone-based sprint system. This keeps both parties aligned and ensures steady progress.",
-  },
+    question: "Can you redesign an existing website?",
+    answer: "We specialize in digital transformations. We can take your existing content and brand and wrap it in a modern, high-performance architecture."
+  }
 ];
 
-const AccordionItem = ({ question, answer, isOpen, onClick, index }) => {
+const FAQItem = ({ question, answer, isOpen, onClick }) => {
+  const customEase = [0.19, 1, 0.22, 1];
+
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.8 }}
-      className={`group border-b border-gray-200 transition-all duration-500 ${isOpen ? "pb-6" : "pb-0"}`}
-    >
+    <div className="relative group">
+      {/* Subtle background glow on hover or when open - no hard card borders */}
+      <div 
+        className={`absolute -inset-x-4 -inset-y-2 rounded-2xl transition-colors duration-500 z-0 ${
+          isOpen ? "bg-blue-50/50" : "group-hover:bg-gray-50/50"
+        }`} 
+      />
+
       <button
         onClick={onClick}
-        className="w-full py-8 flex items-center justify-between text-left outline-none"
+        className="relative z-10 flex w-full items-center justify-between py-8 text-left outline-none"
       >
-        <span className={`text-xl md:text-2xl font-bold tracking-tight transition-colors duration-300 ${isOpen ? "text-[#1C0770]" : "text-[#1A1A1E] group-hover:text-blue-600"}`}>
+        <span className={`text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${
+          isOpen ? "text-[#1C0770]" : "text-[#1A1A1E]"
+        }`}>
           {question}
         </span>
-        <div className={`flex-shrink-0 ml-4 p-2 rounded-full transition-transform duration-500 ${isOpen ? "bg-[#1C0770] text-white rotate-180" : "bg-gray-100 text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600"}`}>
-          {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+        
+        {/* Minimalist Icon: Vertical line disappears to turn + into - */}
+        <div className="relative flex h-5 w-5 items-center justify-center ml-4">
+          <div className="h-[2px] w-full bg-[#1C0770] rounded-full" />
+          <motion.div
+            initial={false}
+            animate={{ scaleY: isOpen ? 0 : 1, opacity: isOpen ? 0 : 1 }}
+            className="absolute h-full w-[2px] bg-[#1C0770] rounded-full"
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          />
         </div>
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
+            transition={{ duration: 0.4, ease: customEase }}
+            className="relative z-10 overflow-hidden"
           >
-            <p className="text-gray-500 text-lg leading-relaxed max-w-2xl font-medium">
+            <p className="pb-8 text-sm md:text-base text-gray-500 max-w-2xl leading-relaxed">
               {answer}
             </p>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+
+      {/* Thin divider line */}
+      <div className="h-[1px] w-full bg-gray-200/60" />
+    </div>
   );
 };
 
-const FAQ = () => {
+const QandA = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="relative py-24 md:py-40 bg-[#F9FAFB] overflow-hidden">
-      {/* Decorative Blur background */}
-      <div className="absolute -top-[10%] -right-[5%] w-[40vw] h-[40vw] bg-blue-100/40 rounded-full blur-[120px] pointer-events-none" />
+    <section id="faq" className="relative w-full py-24 md:py-32 bg-[#F9FAFB] overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-          
-          {/* LEFT: Sticky Header */}
-          <div className="lg:w-1/3">
-            <div className="lg:sticky lg:top-32">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1 }}
-              >
-                <div className="flex items-center gap-3 mb-6">
-                  <HelpCircle className="w-5 h-5 text-[#1C0770]" />
-                  <span className="text-[10px] font-black tracking-[0.4em] uppercase text-[#1C0770]">Expertise</span>
-                </div>
-                
-                <h2 className="text-5xl md:text-6xl font-black text-[#1A1A1E] leading-[1.05] mb-8 tracking-tighter">
-                  Common <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-600">Queries.</span>
-                </h2>
-                
-                <p className="text-gray-500 font-medium text-lg leading-relaxed mb-10">
-                  Transparency is the foundation of our partnership. If your question isn't here, reach out directly.
-                </p>
+      {/* Decorative Wave-like Shape (matches your hero) */}
+      <motion.div 
+        animate={{ y: [0, 20, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-400/10 rounded-full blur-[100px] pointer-events-none"
+      />
 
-                
-              </motion.div>
-            </div>
-          </div>
-
-          {/* RIGHT: Accordion List */}
-          <div className="lg:w-2/3">
-            <div className="border-t border-gray-200">
-              {FAQ_DATA.map((item, index) => (
-                <AccordionItem
-                  key={index}
-                  index={index}
-                  question={item.question}
-                  answer={item.answer}
-                  isOpen={openIndex === index}
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                />
-              ))}
-            </div>
-          </div>
-
+      <div className="relative max-w-3xl mx-auto px-6 z-10">
+        
+        {/* Header - Aligned Left for a more modern, technical feel */}
+        <div className="mb-16">
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "40px" }}
+            className="h-[2px] bg-[#1C0770] mb-6"
+          />
+          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#1C0770] block mb-2">
+            Details
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter text-[#1A1A1E]">
+            Frequently <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">
+              Asked Questions.
+            </span>
+          </h2>
         </div>
+
+        {/* Accordion List - No Wrapper Card */}
+        <div className="flex flex-col">
+          {faqData.map((item, index) => (
+            <FAQItem
+              key={index}
+              question={item.question}
+              answer={item.answer}
+              isOpen={openIndex === index}
+              onClick={() => setOpenIndex(openIndex === index ? null : index)}
+            />
+          ))}
+        </div>
+
+        {/* Footer Link */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-16 pt-8 text-left"
+        >
+          <p className="text-xs font-bold uppercase tracking-widest text-gray-400">
+            Still Curious?{" "}
+            <a href="#contact" className="text-[#1C0770] border-b-2 border-[#1C0770]/20 hover:border-[#1C0770] transition-all ml-2">
+              Get in touch
+            </a>
+          </p>
+        </motion.div>
+
       </div>
     </section>
   );
 };
 
-export default FAQ;
+export default QandA;

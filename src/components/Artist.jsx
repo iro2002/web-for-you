@@ -39,97 +39,121 @@ const ClientFeedback = () => {
   const handlePrev = () => setActiveIndex((p) => (p === 0 ? feedbackData.length - 1 : p - 1));
   const handleNext = () => setActiveIndex((p) => (p === feedbackData.length - 1 ? 0 : p + 1));
 
-  const customEase = [0.22, 1, 0.36, 1];
+  const customEase = [0.19, 1, 0.22, 1];
 
   return (
-    <section id="feedback" className="relative w-full py-20 md:py-32 bg-[#F9FAFB] overflow-hidden">
-      {/* Top Horizontal Line */}
-      <div className="absolute top-0 left-0 w-full border-t border-gray-300 opacity-90" />
-
-      {/* Background Noise */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none z-0" />
+    <section id="feedback" className="relative w-full py-24 md:py-32 bg-[#F9FAFB] overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+      
+      {/* Background Decorative Shapes (Creative Motion) */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            x: [0, 50, 0] 
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-24 -right-24 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl"
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            y: [0, -40, 0] 
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-24 -left-24 w-[500px] h-[500px] bg-[#1C0770]/5 rounded-full blur-3xl"
+        />
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8 z-10">
+        
         {/* HEADER */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.8, ease: customEase }}
-          className="mb-12 lg:mb-20 max-w-2xl lg:ml-auto flex flex-col items-start lg:items-end text-left lg:text-right"
+          transition={{ duration: 1, ease: customEase }}
+          className="mb-16 md:mb-24"
         >
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase text-[#1C0770]">Client Stories</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-[#1A1A1E]">
-            Transformations we've <span className="block text-transparent bg-clip-text bg-gradient-to-r lg:bg-gradient-to-l from-[#1C0770] to-blue-500">powered online.</span>
+          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#1C0770] mb-4 block">Testimonials</span>
+          <h2 className="text-3xl md:text-5xl font-bold leading-tight text-[#1A1A1E] tracking-tight">
+            Client <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1C0770] to-blue-500">Transformations.</span>
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* LEFT: Desktop List */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          {/* LEFT: Nav with Sliding Indicator */}
+          <div className="hidden lg:flex lg:col-span-4 flex-col gap-2 relative">
+             {/* The Active Background Pill */}
+             <motion.div 
+                className="absolute left-0 w-full bg-white shadow-sm border border-gray-100 rounded-2xl z-0"
+                initial={false}
+                animate={{ 
+                  top: activeIndex * 84, // Adjust based on button height + gap
+                  height: 76 
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+             />
+
             {feedbackData.map((client, index) => (
               <button
                 key={client.id}
                 onClick={() => setActiveIndex(index)}
-                className={`flex items-center gap-5 text-left p-3 rounded-xl transition-opacity duration-300 ${
-                  index === activeIndex ? "opacity-100" : "opacity-50 hover:opacity-80"
+                className={`relative z-10 flex items-center gap-4 text-left p-3 h-[76px] rounded-2xl transition-all duration-500 ${
+                  index === activeIndex ? "scale-[1.02]" : "opacity-40 hover:opacity-70"
                 }`}
               >
-                <img src={client.image} className="w-14 h-14 rounded-full object-cover" alt={client.name} />
+                <img src={client.image} className="w-12 h-12 rounded-xl object-cover grayscale-[0.5]" alt={client.name} />
                 <div>
-                  <h4 className="font-bold text-[#1C0770]">{client.name}</h4>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{client.company}</p>
+                  <h4 className="font-bold text-sm text-[#1C0770]">{client.name}</h4>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{client.company}</p>
                 </div>
               </button>
             ))}
           </div>
 
-          {/* RIGHT: Content Area */}
-          <div className="lg:col-span-7">
+          {/* RIGHT: Content Display */}
+          <div className="lg:col-span-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 1.2, ease: customEase }}
-                className="flex flex-col justify-center min-h-[300px] space-y-6"
+                initial={{ opacity: 0, x: 20, filter: "blur(10px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, x: -20, filter: "blur(10px)" }}
+                transition={{ duration: 0.7, ease: customEase }}
+                className="flex flex-col space-y-8"
               >
-                {/* Stars */}
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
+                {/* Modern Quote Icon */}
+                <div className="w-12 h-[2px] bg-gradient-to-r from-[#1C0770] to-blue-500" />
 
-                {/* Feedback Text */}
-                <p className="text-xl md:text-2xl lg:text-3xl leading-relaxed text-[#1A1A1E] font-medium italic">
-                  "{active.content}"
+                {/* Feedback Text - No Italic, Smaller, Clean */}
+                <p className="text-lg md:text-2xl lg:text-3xl leading-relaxed text-[#1A1A1E] font-medium tracking-tight">
+                  {active.content}
                 </p>
 
-                {/* Mobile Identity + Arrows */}
-                <div className="flex items-center justify-between pt-4 lg:pt-0 border-t lg:border-none border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-8">
                   <div className="flex items-center gap-4">
-                    <img src={active.image} className="w-12 h-12 rounded-full lg:hidden" alt={active.name} />
+                    <img src={active.image} className="w-14 h-14 rounded-2xl lg:hidden shadow-lg" alt={active.name} />
                     <div>
-                      <p className="font-bold text-[#1A1A1E]">{active.name}</p>
-                      <p className="text-[10px] lg:text-xs font-bold tracking-widest text-[#1C0770] uppercase">{active.role}</p>
+                      <p className="font-extrabold text-[#1A1A1E] text-base">{active.name}</p>
+                      <p className="text-[11px] font-bold tracking-[0.2em] text-blue-600 uppercase mt-1">
+                        {active.role} // {active.company}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex gap-3 lg:hidden">
-                    <button onClick={handlePrev} className="p-3 rounded-full border border-gray-300 active:scale-95 transition-transform">
-                      <svg className="w-5 h-5 text-[#1C0770]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  {/* Navigation Controls */}
+                  <div className="flex gap-2">
+                    <button onClick={handlePrev} className="p-4 rounded-full border border-gray-200 bg-white hover:bg-gray-50 active:scale-90 transition-all shadow-sm">
+                      <svg className="w-4 h-4 text-[#1C0770]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                       </svg>
                     </button>
-                    <button onClick={handleNext} className="p-3 rounded-full border border-gray-300 active:scale-95 transition-transform">
-                      <svg className="w-5 h-5 text-[#1C0770]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <button onClick={handleNext} className="p-4 rounded-full border border-gray-200 bg-white hover:bg-gray-50 active:scale-90 transition-all shadow-sm">
+                      <svg className="w-4 h-4 text-[#1C0770]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                       </svg>
                     </button>
                   </div>
@@ -140,8 +164,8 @@ const ClientFeedback = () => {
         </div>
       </div>
 
-      {/* Bottom Horizontal Line */}
-      <div className="absolute bottom-0 left-0 w-full border-t border-gray-300 opacity-90" />
+      {/* Modern thin line accents */}
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
     </section>
   );
 };
