@@ -2,79 +2,47 @@ import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+// Import Project 1 Images
+import p1_1 from "../images/project1/1.png";
+import p1_2 from "../images/project1/2.png";
+import p1_3 from "../images/project1/3.png";
+import p1_4 from "../images/project1/4.png";
+import p1_5 from "../images/project1/5.png";
+
+// Import Project 2 Images
+import p2_1 from "../images/project2/1.png";
+import p2_2 from "../images/project2/2.png";
+import p2_3 from "../images/project2/3.png";
+import p2_4 from "../images/project2/4.png";
+import p2_5 from "../images/project2/5.png";
+
+// Import Project 3 Images
+import p3_1 from "../images/project3/1.png";
+import p3_2 from "../images/project3/2.png";
+import p3_3 from "../images/project3/3.png";
+import p3_4 from "../images/project3/4.png";
+import p3_5 from "../images/project3/5.png";
+
 const ALL_PROJECTS = [
   {
     id: 1,
     title: "E-Commerce Revolution",
     description: "A high-performance shopping experience with real-time inventory and glassmorphic UI.",
-    images: [
-      "https://cdn.dribbble.com/userupload/10753367/file/still-78df3b71964d93fb8216832559b3c0d0.png?resize=1024x0",
-      "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=1000"
-    ],
+    images: [p1_1, p1_2, p1_3, p1_4, p1_5],
   },
   {
     id: 2,
     title: "Luxury Tourism Portal",
     description: "Immersive travel booking system featuring cinematic transitions and 100% responsive design.",
-    images: [
-      "https://cdn.dribbble.com/userupload/44817887/file/still-f07b07f47273119512c5e0a3e1895087.png?resize=1024x0",
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1000"
-    ],
+    images: [p2_1, p2_2, p2_3, p2_4, p2_5],
   },
   {
     id: 3,
     title: "SaaS Analytics Dashboard",
     description: "Complex data visualization simplified into a clean, intuitive dashboard for startups.",
-    images: [
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000"
-    ],
+    images: [p3_1, p3_2, p3_3, p3_4, p3_5],
   },
-  {
-    id: 4,
-    title: "AI Marketing Suite",
-    description: "Automating content creation using generative AI models and predictive analytics.",
-    images: [
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000"
-    ],
-  },
-  {
-    id: 5,
-    title: "FinTech Mobile App",
-    description: "Secure, lightning-fast banking application with biometric auth and dark mode.",
-    images: [
-      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000"
-    ],
-  },
-  {
-    id: 6,
-    title: "Smart Home OS",
-    description: "A centralized interface to control IoT devices across the entire household.",
-    images: [
-      "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000"
-    ],
-  },
-  {
-    id: 7,
-    title: "Cyber Security Hub",
-    description: "Enterprise-level threat detection dashboard with real-time network mapping.",
-    images: [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&q=80&w=1000"
-    ],
-  },
-  {
-    id: 8,
-    title: "Health & Fitness Tracker",
-    description: "Wearable integration for tracking vital signs and personalized workout plans.",
-    images: [
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000"
-    ],
-  },
+
 ];
 
 const Projects = () => {
@@ -105,7 +73,7 @@ const Projects = () => {
   };
 
   return (
-    <section 
+    <section id="works"
       ref={containerRef} 
       className="relative bg-[#F9FAFB] w-full"
       style={{ minHeight: `${currentProjects.length * 100}vh` }}
@@ -118,7 +86,6 @@ const Projects = () => {
             const start = i * step;
             const end = (i + 1) * step;
             
-            // Matches the fade timing of the mockup screens perfectly
             const opacity = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [0, 0.25, 0.25, 0]);
             const currentIndex = activeIndices[project.id] || 0;
 

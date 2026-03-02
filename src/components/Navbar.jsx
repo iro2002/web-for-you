@@ -58,7 +58,7 @@ const TechnicalHero = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full min-h-[100dvh] overflow-hidden">
       {/* Preloader - Glassmorphism & SVG */}
       <AnimatePresence>
         {isLoading && (
@@ -101,12 +101,13 @@ const TechnicalHero = () => {
       {/* Hero Section */}
       <section
         onMouseMove={handleMouseMove}
-        className="relative w-full min-h-[100dvh] overflow-hidden bg-[#F9FAFB] text-[#1A1A1E]"
+        // Added pseudo-elements for a subtle full-screen mobile border without affecting layout
+        className="relative w-full min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-[#F9FAFB] text-[#1A1A1E] after:content-[''] after:absolute after:inset-3 after:border after:border-[#1C0770]/10 after:rounded-2xl after:pointer-events-none md:after:hidden"
         style={{ perspective: "1500px", fontFamily: "'Inter', sans-serif" }}
         aria-label="Hero section for web development services"
       >
         {/* Animated Wave Background */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-end">
           {/* Wave 1 (Back, darker, slower) */}
           <motion.svg
             className="absolute bottom-0 w-full h-[60vh] text-[#1C0770]/5"
@@ -161,7 +162,7 @@ const TechnicalHero = () => {
           variants={containerVariants}
           initial="hidden"
           animate={!isLoading ? "visible" : "hidden"}
-          className="relative z-10 flex flex-col items-center justify-center h-full min-h-[100dvh] w-full px-4 sm:px-6 max-w-5xl mx-auto py-24 md:py-16"
+          className="relative z-10 flex flex-col items-center justify-center h-full w-full px-4 sm:px-6 max-w-5xl mx-auto py-12 md:py-16"
         >
           {/* Title */}
           <motion.h1

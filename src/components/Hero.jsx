@@ -40,14 +40,50 @@ const SEOIcon = () => (
 
 // --- Services Data ---
 const services = [
-  { id: 1, title: "Corporate Websites", description: "Lightning-fast, high-converting platforms designed to establish absolute authority in your industry.", icon: <WebsiteIcon /> },
-  { id: 2, title: "Startup E-Commerce", description: "Scalable stores with seamless checkout flows, secure gateways, and striking product displays.", icon: <EcommerceIcon /> },
-  { id: 3, title: "Tourism & Travel", description: "Immersive experiences featuring interactive maps, booking engines, and visual storytelling.", icon: <TourismIcon /> },
-  { id: 4, title: "Custom Web Apps", description: "Bespoke digital solutions, portals, and web applications engineered perfectly for your niche.", icon: <CustomIcon /> },
-  { id: 5, title: "UI/UX Design", description: "Intuitive, pixel-perfect user interfaces and engaging experiences that delight your customers.", icon: <DesignIcon /> },
-  { id: 6, title: "SEO & Performance", description: "Data-driven optimization strategies to improve your search rankings and drive targeted traffic.", icon: <SEOIcon /> },
-];
 
+  { 
+    id: 1, 
+    title: "Corporate Websites", 
+    description: "Fast, professional websites designed to build trust, showcase your company, and clearly communicate your brand.", 
+    icon: <WebsiteIcon /> 
+  },
+
+  { 
+    id: 2, 
+    title: "Startup E-Commerce", 
+    description: "Clean and conversion-focused storefronts with modern layouts, product showcases, and smooth customer journeys.", 
+    icon: <EcommerceIcon /> 
+  },
+
+  { 
+    id: 3, 
+    title: "Tourism & Travel", 
+    description: "Visually rich websites that highlight destinations, tour packages, galleries, maps, and engaging travel stories.", 
+    icon: <TourismIcon /> 
+  },
+
+  { 
+    id: 4, 
+    title: "Tourism & Travel Websites", 
+    description: "High-impact websites crafted to present tours, travel experiences, and packages with clear calls to action.", 
+    icon: <CustomIcon /> 
+  },
+
+  { 
+    id: 5, 
+    title: "Hotel & Resort Websites", 
+    description: "Elegant websites to showcase rooms, amenities, galleries, and your brand’s unique atmosphere.", 
+    icon: <DesignIcon /> 
+  },
+
+  { 
+    id: 6, 
+    title: "SEO & Performance", 
+    description: "Websites optimized for speed, structure, and search visibility to help you rank better and reach more customers.", 
+    icon: <SEOIcon /> 
+  },
+
+];
 const Services = () => {
   return (
     <section id="services" className="relative w-full py-16 md:py-24 overflow-hidden bg-[#F9FAFB] text-[#1A1A1E] flex flex-col items-center justify-center">

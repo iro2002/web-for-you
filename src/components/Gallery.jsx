@@ -4,9 +4,9 @@ import aboutImg from "../images/abouth.png";
 
 // --- Stats Data ---
 const statsData = [
-  { id: 1, value: "150+", label: "Projects Delivered" },
-  { id: 2, value: "60+", label: "Happy Clients" },
-  { id: 3, value: "5+", label: "Years Experience" },
+  { id: 1, value: "10+", label: "Projects Delivered" },
+  { id: 2, value: "10+", label: "Happy Clients" },
+  { id: 3, value: "1+", label: "Years Experience" },
   { id: 4, value: "100%", label: "Client Satisfaction" },
 ];
 

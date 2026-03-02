@@ -33,7 +33,9 @@ const Header = () => {
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => { document.body.style.overflow = "unset"; };
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isMenuOpen]);
 
   // Framer Motion variants for the full-screen menu links
@@ -51,19 +53,38 @@ const Header = () => {
 
   const menuItemVars = {
     hidden: { y: 50, opacity: 0 },
-    show: { 
-      y: 0, 
-      opacity: 1, 
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } 
+    show: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
     },
-    exit: { 
-      y: 20, 
-      opacity: 0, 
-      transition: { duration: 0.3 } 
+    exit: {
+      y: 20,
+      opacity: 0,
+      transition: { duration: 0.3 },
     },
   };
 
-  const navLinks = ["Works", "Services", "Contact"];
+  const navLinks = ["Services", "Works", "Feedback"];
+
+  // Helper for smooth scrolling
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const element = document.getElementById(id.toLowerCase());
+    if (element) {
+      const offset = 80; // Adjust this for header height
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
     <>
@@ -72,15 +93,15 @@ const Header = () => {
         <header className="fixed top-0 left-0 w-full z-[100] flex justify-center pt-4 md:pt-6 px-4 pointer-events-none">
           <motion.nav
             initial={{ y: 0, opacity: 1 }}
-            animate={{ 
-              y: visible ? 0 : -120, 
-              opacity: visible ? 1 : 0 
+            animate={{
+              y: visible ? 0 : -120,
+              opacity: visible ? 1 : 0,
             }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 260, 
+            transition={{
+              type: "spring",
+              stiffness: 260,
               damping: 20,
-              layout: { duration: 0.4, ease: "easeOut" } 
+              layout: { duration: 0.4, ease: "easeOut" },
             }}
             layout
             className={`
@@ -110,9 +131,15 @@ const Header = () => {
             <ul className="hidden md:flex items-center gap-12 relative z-[101]">
               {navLinks.map((item) => (
                 <li key={item} className="relative group cursor-pointer">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-500 group-hover:text-black transition-colors duration-300">
-                    {item}
-                  </span>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    onClick={(e) => scrollToSection(e, item)}
+                    className="block"
+                  >
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-gray-500 group-hover:text-black transition-colors duration-300">
+                      {item}
+                    </span>
+                  </a>
                   <span className="absolute -bottom-2 left-0 w-0 h-[1.5px] bg-gradient-to-r from-[#1C0770] to-blue-500 transition-all duration-300 group-hover:w-full" />
                 </li>
               ))}
@@ -131,46 +158,63 @@ const Header = () => {
             </motion.button>
 
             {/* Mobile Hamburger Menu Icon */}
-            <div 
+            <div
               className="md:hidden flex items-center pr-2 cursor-pointer relative z-[101]"
               onClick={() => setIsMenuOpen(true)}
             >
-              <svg 
-                className="w-7 h-7 text-[#1C0770]" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
+              <svg
+                className="w-7 h-7 text-[#1C0770]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
                 strokeWidth="2"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </div>
           </motion.nav>
         </header>
       </AnimatePresence>
 
-      {/* ---------------- CREATIVE FULL SCREEN MOBILE MENU (WHITE LIQUID GLASS) ---------------- */}
+      {/* ---------------- CREATIVE FULL SCREEN MOBILE MENU ---------------- */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ clipPath: "circle(0% at 100% 0)" }}
             animate={{ clipPath: "circle(150% at 100% 0)" }}
-            exit={{ clipPath: "circle(0% at 100% 0)", transition: { delay: 0.2, duration: 0.5 } }}
+            exit={{
+              clipPath: "circle(0% at 100% 0)",
+              transition: { delay: 0.2, duration: 0.5 },
+            }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-[200] bg-white/60 backdrop-blur-3xl flex flex-col justify-center items-center font-['Inter']"
           >
-            {/* Close Button - Updated to dark color */}
-            <button 
+            {/* Close Button */}
+            <button
               onClick={() => setIsMenuOpen(false)}
               className="absolute top-8 right-6 p-2 text-gray-500 hover:text-[#1C0770] transition-colors"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
             {/* Animated Links */}
-            <motion.ul 
+            <motion.ul
               variants={menuContainerVars}
               initial="hidden"
               animate="show"
@@ -180,9 +224,9 @@ const Header = () => {
               {navLinks.map((item) => (
                 <div key={item} className="overflow-hidden">
                   <motion.li variants={menuItemVars}>
-                    <a 
+                    <a
                       href={`#${item.toLowerCase()}`}
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={(e) => scrollToSection(e, item)}
                       className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1A1A1E] to-[#1C0770] hover:to-blue-500 transition-all duration-300 tracking-tight"
                     >
                       {item}
@@ -190,11 +234,11 @@ const Header = () => {
                   </motion.li>
                 </div>
               ))}
-              
-              {/* Mobile CTA Button (inside menu) - Updated to use brand gradient */}
+
+              {/* Mobile CTA Button */}
               <div className="overflow-hidden mt-8">
                 <motion.li variants={menuItemVars}>
-                  <button 
+                  <button
                     onClick={() => setIsMenuOpen(false)}
                     className="px-10 py-4 rounded-full bg-gradient-to-r from-[#1C0770] via-[#2b0bb5] to-[#3b82f6] text-white font-bold tracking-[0.2em] uppercase text-sm shadow-[0_10px_30px_rgba(28,7,112,0.25)] active:scale-95 transition-transform"
                   >
@@ -204,8 +248,8 @@ const Header = () => {
               </div>
             </motion.ul>
 
-            {/* Bottom Contact Info - Updated to dark gray */}
-            <motion.div 
+            {/* Bottom Contact Info */}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.5 }}

@@ -5,27 +5,60 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 const PLANS = [
   {
     name: "Starter",
-    price: "9,000",
-    description: "Perfect for establishing your initial digital footprint.",
-    features: ["Single Page Website", "Mobile Responsive", "Basic SEO Setup", "1 Month Support"],
+    price: "9,900",
+    description: "Perfect for individuals and small businesses who need a clean, professional online presence.",
+    features: [
+      "Single Page Website",
+      "Modern & Clean UI Design",
+      "Mobile & Tablet Responsive",
+      "Contact Form",
+      "Basic On-Page SEO Setup",
+      "Fast Loading & Optimized Images",
+      "Free Domain & SSL",
+      "Web Hosting (Free for 1 Year)",
+      "1 Month Support"
+    ],
     popular: false,
   },
+
+  {
+    name: "E-Commerce Startup",
+    price: "14,900",
+    description: "Ideal for startups that want to showcase products and launch their brand online quickly.",
+    features: [
+      "Up to 3 Pages Website",
+      "Product Showcase Sections",
+      "Homepage for Offers & Featured Products",
+      "Modern E-Commerce Style UI",
+      "Mobile Responsive Design",
+      "Call-to-Action & Enquiry Buttons",
+      "Basic On-Page SEO Setup",
+      "Performance Optimization",
+      "Free Domain & SSL",
+      "Web Hosting (Optional – LKR 3,000)",
+      "2 Months Support"
+    ],
+    popular: false,
+  },
+
   {
     name: "Professional",
-    price: "25,000",
-    description: "Ideal for growing brands needing powerful performance.",
-    features: ["Up to 5 Pages", "Advanced Animations", "Priority Support", "Custom Domain Integration"],
+    price: "24,900",
+    description: "Best for growing brands, hotels and tourism businesses that need strong design and visibility.",
+    features: [
+      "Up to 5 Pages Website",
+      "Smooth Animations & Interactions",
+      "Gallery / Portfolio / Package Sections",
+      "Speed & Performance Optimization",
+      "On-Page SEO for All Pages",
+      "Google Map & Contact Form",
+      "Free Domain & SSL Setup",
+      "Web Hosting (Optional – LKR 3,000)",
+      "3 Months Support"
+    ],
     popular: true,
   },
-  {
-    name: "Enterprise",
-    price: "60,000",
-    description: "Full-scale solutions with dedicated infrastructure.",
-    features: ["Unlimited Pages", "E-Commerce Ready", "Dedicated Manager", "Custom API Integrations"],
-    popular: false,
-  },
 ];
-
 const PremiumButton = () => (
   <motion.button
     whileHover={{ scale: 1.05 }}
