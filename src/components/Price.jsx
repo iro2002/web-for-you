@@ -11,7 +11,7 @@ const PLANS = [
       "Single Page Website",
       "Modern & Clean UI Design",
       "Mobile & Tablet Responsive",
-      "Contact Form",
+      "Social Media Integration",
       "Basic On-Page SEO Setup",
       "Fast Loading & Optimized Images",
       "Free Domain & SSL",

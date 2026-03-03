@@ -40,50 +40,44 @@ const SEOIcon = () => (
 
 // --- Services Data ---
 const services = [
-
-  { 
-    id: 1, 
-    title: "Corporate Websites", 
-    description: "Fast, professional websites designed to build trust, showcase your company, and clearly communicate your brand.", 
-    icon: <WebsiteIcon /> 
+  {
+    id: 1,
+    title: "Personal Portfolio Website",
+    description: "A simple static website to showcase projects, skills, profile information, and contact details.",
+    icon: <WebsiteIcon />,
   },
-
-  { 
-    id: 2, 
-    title: "Startup E-Commerce", 
-    description: "Clean and conversion-focused storefronts with modern layouts, product showcases, and smooth customer journeys.", 
-    icon: <EcommerceIcon /> 
+  {
+    id: 2,
+    title: "Startup E-Commerce",
+    description: "Clean and conversion-focused storefronts with modern layouts, product showcases, and smooth customer journeys.",
+    icon: <EcommerceIcon />,
   },
-
-  { 
-    id: 3, 
-    title: "Tourism & Travel", 
-    description: "Visually rich websites that highlight destinations, tour packages, galleries, maps, and engaging travel stories.", 
-    icon: <TourismIcon /> 
+  {
+    id: 3,
+    title: "Business Landing Page",
+    description: "A single or multi-section static landing page focused on presenting services and generating enquiries.",
+    icon: <CustomIcon />,
   },
-
-  { 
-    id: 4, 
-    title: "Tourism & Travel Websites", 
-    description: "High-impact websites crafted to present tours, travel experiences, and packages with clear calls to action.", 
-    icon: <CustomIcon /> 
+  {
+    id: 4,
+    title: "Tourism & Travel Websites",
+    description: "High-impact websites crafted to present tours, travel experiences, and packages with clear calls to action.",
+    icon: <TourismIcon />,
   },
-
-  { 
-    id: 5, 
-    title: "Hotel & Resort Websites", 
-    description: "Elegant websites to showcase rooms, amenities, galleries, and your brand’s unique atmosphere.", 
-    icon: <DesignIcon /> 
+  {
+    id: 5,
+    title: "Hotel & Resort Websites",
+    description: "Elegant websites to showcase rooms, amenities, galleries, and your brand’s unique atmosphere.",
+    icon: <DesignIcon />,
   },
-
-  { 
-    id: 6, 
-    title: "SEO & Performance", 
-    description: "Websites optimized for speed, structure, and search visibility to help you rank better and reach more customers.", 
-    icon: <SEOIcon /> 
+  {
+    id: 6,
+    title: "SEO & Performance",
+    description: "Websites optimized for speed, structure, and search visibility to help you rank better and reach more customers.",
+    icon: <SEOIcon />,
   },
-
 ];
+
 const Services = () => {
   return (
     <section id="services" className="relative w-full py-16 md:py-24 overflow-hidden bg-[#F9FAFB] text-[#1A1A1E] flex flex-col items-center justify-center">

@@ -52,12 +52,12 @@ const services = [
     description: "Scalable stores with seamless checkout flows, secure gateways, and striking product displays.",
     icon: <EcommerceIcon />,
   },
-  {
-    id: 3,
-    title: "Tourism & Travel",
-    description: "Immersive experiences featuring interactive maps, booking engines, and visual storytelling.",
-    icon: <TourismIcon />,
-  },
+{
+  id: 3,
+  title: "Business Landing Page",
+  description: "A single or multi-section static landing page focused on presenting services and generating enquiries.",
+  icon: <LandingIcon />,
+},
   {
     id: 4,
     title: "Custom Web Apps",

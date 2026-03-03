@@ -4,28 +4,21 @@ import { motion, AnimatePresence } from "framer-motion";
 const feedbackData = [
   {
     id: 1,
-    name: "Sarah Jenkins",
+    name: "Asela Nishshankha",
     role: "Founder",
-    company: "Lumina Tech",
-    content: "They didn't just build a website; they transformed our entire digital presence. The attention to detail is unmatched. Our conversion rate increased by 40%.",
-    image: "https://i.pravatar.cc/150?u=sarah"
+    company: "thtropicalweldlock.com",
+    content: "Excellent work! The website design is clean, modern, and very user-friendly. Everything was delivered on time and exactly as discussed. Highly recommended for anyone looking for a professional website designer.",
+    image: "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.30808-1/492715104_2359429681125018_6861699466228304392_n.jpg?stp=c255.0.1538.1538a_dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=1d2534&_nc_ohc=z3gpcz9LOfoQ7kNvwGhTpVS&_nc_oc=AdmamKMdGd4AF5960uEYzWNKOsfKKYLFgPq2BqeKI8AqdEXEKnI7oLs4OBtzb_uPtHE&_nc_zt=24&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=L-kF68_yLTPJp7lJsEtvNQ&_nc_ss=8&oh=00_AfzZ2C8H0M3M0wWVF2l1GHmzce6unGS4FbmZZgc60IVYdQ&oe=69AC9C04"
   },
   {
     id: 2,
-    name: "Marcus Thorne",
-    role: "Marketing Director",
-    company: "Apex Tourism",
-    content: "Working with this team was a breeze. They delivered a blazing fast, secure platform. The custom animations gave our brand a competitive edge.",
-    image: "https://i.pravatar.cc/150?u=marcus"
+    name: "Sulash De Soyza",
+    role: "Founder",
+    company: "CraftGrapher / TEARDOWN ART",
+    content: "Highly recommend! The website was designed professionally with a clean, modern, and premium look. Very responsive on both mobile and desktop. Great communication and delivered on time. Excellent service overall.",
+    image: "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.30808-1/595977571_122196717512564446_7239449843004284583_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=CZCmBkeGCwwQ7kNvwEDtupi&_nc_oc=Adk7s5khjhZdMwTMZyJUktKhPWS6xIDaWEZM3WZFomIfieAW3C6qb1d52sEOaDuWKls&_nc_zt=24&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=gIL7DXQC0TPELnnBj7bjDQ&_nc_ss=8&oh=00_Afzq8n1NKp8u-a0BvJRMua5_e-GxOWqzRrWiHt18hsLdYA&oe=69ACA455"
   },
-  {
-    id: 3,
-    name: "Elena Rodriguez",
-    role: "CEO",
-    company: "Elevate E-commerce",
-    content: "Absolutely phenomenal work. The e-commerce backend is flawless. They were responsive and delivered exactly what we needed ahead of schedule.",
-    image: "https://i.pravatar.cc/150?u=elena"
-  }
+
 ];
 
 const ClientFeedback = () => {

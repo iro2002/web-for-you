@@ -26,23 +26,22 @@ import p3_5 from "../images/project3/5.png";
 const ALL_PROJECTS = [
   {
     id: 1,
-    title: "E-Commerce Revolution",
-    description: "A high-performance shopping experience with real-time inventory and glassmorphic UI.",
+    title: "www.craftgrapher.com",
+    description: "Craftgrapher.com is a dynamic e-commerce platform designed to showcase products in a visually engaging and user-friendly manner.",
     images: [p1_1, p1_2, p1_3, p1_4, p1_5],
   },
   {
     id: 2,
-    title: "Luxury Tourism Portal",
-    description: "Immersive travel booking system featuring cinematic transitions and 100% responsive design.",
+    title: "www.tropicalweldlock.com",
+    description: "A visually immersive photography website, created to elegantly present photo albums and capture the essence of each moment.",
     images: [p2_1, p2_2, p2_3, p2_4, p2_5],
   },
   {
     id: 3,
-    title: "SaaS Analytics Dashboard",
-    description: "Complex data visualization simplified into a clean, intuitive dashboard for startups.",
+    title: "www.thamindugamagephotography.me",
+    description: "A professional portfolio website crafted for photographers, providing a refined platform to showcase albums and highlight creative work.",
     images: [p3_1, p3_2, p3_3, p3_4, p3_5],
   },
-
 ];
 
 const Projects = () => {
@@ -78,34 +77,18 @@ const Projects = () => {
       className="relative bg-[#F9FAFB] w-full"
       style={{ minHeight: `${currentProjects.length * 100}vh` }}
     >
-      {/* FIXED IMMERSIVE DYNAMIC BACKGROUND */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="sticky top-0 w-full h-screen overflow-hidden">
-          {currentProjects.map((project, i) => {
-            const step = 1 / currentProjects.length;
-            const start = i * step;
-            const end = (i + 1) * step;
-            
-            const opacity = useTransform(smoothProgress, [start, start + 0.05, end - 0.05, end], [0, 0.25, 0.25, 0]);
-            const currentIndex = activeIndices[project.id] || 0;
-
-            return (
-              <motion.div
-                key={`bg-${project.id}`}
-                style={{ opacity }}
-                className="absolute inset-0 transition-all duration-700"
-              >
-                <div 
-                  className="absolute inset-0 blur-[80px] scale-[1.15]"
-                  style={{
-                    backgroundImage: `url(${project.images[currentIndex]})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-              </motion.div>
-            );
-          })}
+      {/* WHITE LIQUID GLASS BACKGROUND */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="sticky top-0 w-full h-screen">
+          {/* Liquid Blobs */}
+          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-50/60 blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-50/50 blur-[100px]" />
+          
+          {/* Glass Texture Overlay */}
+          <div className="absolute inset-0 bg-white/30 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 opacity-[0.03]" 
+               style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3Base%3B%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+          </div>
         </div>
       </div>
 
@@ -171,7 +154,7 @@ const Projects = () => {
           </div>
 
           {/* SCROLLING TEXT */}
-          <div className="w-full lg:w-1/2 flex flex-col z-20 lg:order-1 mt-[5vh] lg:mt-0">
+          <div className="w-full lg:w-1/2 flex flex-col z-10 lg:order-1 mt-[5vh] lg:mt-0">
             {currentProjects.map((project, i) => (
               <div key={project.id} className="min-h-[70vh] lg:min-h-screen flex flex-col justify-end lg:justify-center pb-24 lg:pb-0">
                 <motion.div 
@@ -184,7 +167,7 @@ const Projects = () => {
                     <span className="w-8 h-[2px] bg-gradient-to-r from-[#1C0770] to-blue-500"></span>
                     <span className="text-[#1C0770] font-bold text-xs uppercase tracking-widest">Project 0{i + 1}</span>
                   </div>
-                  <h3 className="text-3xl lg:text-4xl font-bold text-[#1A1A1E] mb-4 tracking-tighter">
+                  <h3 className="text-1xl lg:text-2xl font-bold text-[#1A1A1E] mb-4 tracking-tighter">
                     {project.title}
                   </h3>
                   <p className="text-gray-600 text-base lg:text-lg max-w-md mb-8 leading-relaxed font-medium">
